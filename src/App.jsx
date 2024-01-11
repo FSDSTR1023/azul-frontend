@@ -7,11 +7,13 @@ import { Users } from './pages/Users'
 import { LoginPage } from './pages/LoginPage'
 import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoutes } from './components/ProtectedRoutes'
+import { Navbar } from './components/Navbar'
 
 function App() {
     return (
         <AuthProvider>
             <BrowserRouter>
+                <Navbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<LoginPage />} />

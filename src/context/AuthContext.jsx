@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from 'react'
 import { loginReq, verifyTokenReq } from '../api/auth'
-import Cookies from 'js-cookie'
+import { Navigate } from 'react-router'
 
 export const AuthContext = createContext()
 export const useAuth = () => {
@@ -15,30 +15,58 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
-        const cookies = Cookies.get()
-        if (cookies.token) {
-            console.log('hay token', cookies.token)
-            try {
-                const res = verifyTokenReq(cookies.token)
-                if (!res.data) throw new Error('Token inválido')
-                setUser(res.data)
-                setIsAuthenticated(true)
-                setLoading(false)
-            } catch (error) {
+        const checkLogin = async () => {
+            const token = localStorage.getItem('token')
+            if (!token) {
                 setUser(null)
                 setIsAuthenticated(false)
-                setLoading(false)
+                setIsLoading(false)
+                return
+            }
+            console.log('hay token', token)
+            try {
+                const res = await verifyTokenReq(token)
+                console.log(res)
+                if (!res.data) {
+                    setUser(null)
+                    setIsAuthenticated(false)
+                    setIsLoading(false)
+                    return
+                }
+                setUser(res.data)
+                setIsAuthenticated(true)
+                setIsLoading(false)
+            } catch (error) {
+                console.log(error)
+                setUser(null)
+                setIsAuthenticated(false)
+                setIsLoading(false)
             }
         }
+        checkLogin()
     }, [])
     const signin = async (user) => {
         const res = await loginReq(user)
         setUser(res.data)
         setIsAuthenticated(true)
-        setLoading(false)
+        setIsLoading(false)
+        localStorage.setItem('token', res.data.token)
         console.log(res)
+        return res
     }
-    return <AuthContext.Provider value={{ signin, user, isAuthenticated, loading }}>{children}</AuthContext.Provider>
+    const signout = () => {
+        setUser(null)
+        setIsAuthenticated(false)
+        setIsLoading(false)
+        localStorage.removeItem('token')
+        Navigate('/login', { replace: true })
+    }
+
+    return (
+        <AuthContext.Provider value={{ signin, user, isAuthenticated, isLoading, signout }}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
