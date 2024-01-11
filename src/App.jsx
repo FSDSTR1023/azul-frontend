@@ -6,6 +6,7 @@ import { Incidencias } from './pages/Incidencias'
 import { Users } from './pages/Users'
 import { LoginPage } from './pages/LoginPage'
 import { AuthProvider } from './context/AuthContext'
+import { ProtectedRoutes } from './components/ProtectedRoutes'
 
 function App() {
     return (
@@ -14,10 +15,12 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/dasboard" element={<Dashboard />} />
-                    <Route path="/usuarios" element={<Users />} />
-                    <Route path="/alquileres" element={<Alquileres />} />
-                    <Route path="/incidencias" element={<Incidencias />} />
+                    <Route element={<ProtectedRoutes />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/usuarios" element={<Users />} />
+                        <Route path="/alquileres" element={<Alquileres />} />
+                        <Route path="/incidencias" element={<Incidencias />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
