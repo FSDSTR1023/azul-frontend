@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from 'react'
-import { loginReq, verifyTokenReq } from '../api/auth'
+import { getProfileReq, loginReq, verifyTokenReq } from '../api/auth'
 import { Navigate } from 'react-router'
 
 export const AuthContext = createContext()
@@ -57,11 +57,11 @@ export const AuthProvider = ({ children }) => {
         return res
     }
     const signout = () => {
+        console.log('test')
         setUser(null)
         setIsAuthenticated(false)
         setIsLoading(false)
         localStorage.removeItem('token')
-        Navigate('/login', { replace: true })
     }
 
     return (
