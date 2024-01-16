@@ -35,7 +35,9 @@ export const LoginPage = () => {
                     errors={errors}
                     register={register('password', { required: 'La contraseña es requerida' })}
                 />
-                <Button className={'mt-2'} type="submit" text="Iniciar sesión" />
+                <Button className={'mt-2'} type="submit">
+                    Iniciar sesión
+                </Button>
             </form>
         </div>
     )
