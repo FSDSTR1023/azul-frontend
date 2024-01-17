@@ -6,8 +6,9 @@ import { Users } from './pages/Users'
 import { LoginPage } from './pages/LoginPage'
 import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoutes } from './components/ProtectedRoutes'
-import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, NOTFOUND, USUARIOS } from './schemas/Navigaton-schema'
+import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, MAQUINAS, NOTFOUND, USUARIOS } from './schemas/Navigaton-schema'
 import { NotFound } from './pages/NotFound'
+import { Maquinas } from './pages/Maquinas'
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                         <Route path={USUARIOS.navigation} element={<Users />} />
                         <Route path={ALQUILERES.navigation} element={<Alquileres />} />
                         <Route path={INCIDENCIAS.navigation} element={<Incidencias />} />
+                        <Route path={MAQUINAS.navigation} element={<Maquinas />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
