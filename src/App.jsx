@@ -1,5 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Home } from './pages/Home'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Dashboard } from './pages/Dashboard'
 import { Alquileres } from './pages/Alquileres'
 import { Incidencias } from './pages/Incidencias'
@@ -7,19 +6,23 @@ import { Users } from './pages/Users'
 import { LoginPage } from './pages/LoginPage'
 import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoutes } from './components/ProtectedRoutes'
+import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, NOTFOUND, USUARIOS } from './schemas/Navigaton-schema'
+import { NotFound } from './pages/NotFound'
 
 function App() {
     return (
         <AuthProvider>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/" element={<Navigate to={DASBOARD.navigation} />} />
+                    <Route path={LOGIN.navigation} element={<LoginPage />} />
+                    <Route path={NOTFOUND.navigation} element={<NotFound />} />
+                    <Route path="*" element={<Navigate to={NOTFOUND.navigation} />} />
                     <Route element={<ProtectedRoutes />}>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/usuarios" element={<Users />} />
-                        <Route path="/alquileres" element={<Alquileres />} />
-                        <Route path="/incidencias" element={<Incidencias />} />
+                        <Route path={DASBOARD.navigation} element={<Dashboard />} />
+                        <Route path={USUARIOS.navigation} element={<Users />} />
+                        <Route path={ALQUILERES.navigation} element={<Alquileres />} />
+                        <Route path={INCIDENCIAS.navigation} element={<Incidencias />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { DashboardIcon, IssueIcon, LogoutIcon, MachineIcon, RentIcon, UsersIcon } from './Icons'
 import { CustomLink } from './CustomLink'
 import { Logo } from './Logo'
+import { ALQUILERES, DASBOARD, INCIDENCIAS, MAQUINAS, USUARIOS } from '../schemas/Navigaton-schema'
 
 export const AsideNav = ({ className }) => {
     const { user, signout } = useAuth()
@@ -17,33 +18,33 @@ export const AsideNav = ({ className }) => {
                 </Link>
                 <ul className="flex gap-1 flex-col py-10">
                     <li>
-                        <CustomLink to="/dashboard">
+                        <CustomLink to={DASBOARD.navigation}>
                             <DashboardIcon />
-                            Dashboard
+                            {DASBOARD.name}
                         </CustomLink>
                     </li>
                     <li>
-                        <CustomLink to="/alquileres">
+                        <CustomLink to={ALQUILERES.navigation}>
                             <RentIcon />
-                            Alquileres
+                            {ALQUILERES.name}
                         </CustomLink>
                     </li>
                     <li>
-                        <CustomLink to="/incidencias">
+                        <CustomLink to={INCIDENCIAS.navigation}>
                             <IssueIcon />
-                            Incidencias
+                            {INCIDENCIAS.name}
                         </CustomLink>
                     </li>
                     <li>
-                        <CustomLink to="/usuarios">
+                        <CustomLink to={USUARIOS.navigation}>
                             <UsersIcon />
-                            Usuarios
+                            {USUARIOS.name}
                         </CustomLink>
                     </li>
                     <li>
-                        <CustomLink to="/maquinas">
+                        <CustomLink to={MAQUINAS.navigation}>
                             <MachineIcon />
-                            Maquinas
+                            {MAQUINAS.name}
                         </CustomLink>
                     </li>
                 </ul>
