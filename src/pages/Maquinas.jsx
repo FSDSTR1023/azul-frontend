@@ -1,16 +1,15 @@
 import axios from "axios";
-import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 
 import Tabla from "../components/Tabla";
 
-export const Alquileres = () => {
+export const Maquinas = () => {
   
     const [data, setData] = useState([]);
 
     useEffect(() => {
       (async () => {
-        const result = await axios("http://localhost:3000/rent");
+        const result = await axios("http://localhost:3000/machine");
         setData(result.data);
       })();
     }, []);
@@ -18,26 +17,27 @@ export const Alquileres = () => {
     const columns = useMemo(
         () => [
           {
-            Header: "Alquileres", 
+            Header: "Máquinas", 
             columns: [
               {
                 Header: "ID",
                 accessor: "_id",
               },
               {
-                Header: "Máquina",
-                accessor: 
-                row => `${row.machine.make} ${row.machine.model}`,
+                Header: "Marca y modelo",
+                accessor: "make",
+                aggregate: "count",
+                Aggregated: ({ value }) => `${value} Máquina`,
+                Cell: ({ row }) =>
+                    row.original ? row.original.make + ' ' + row.original.model : row.groupByVal
               },
               {
-                Header: "cliente",
-                accessor: 
-                row => `${row.user.name} ${row.user.lastName}`,
+                Header: "Año",
+                accessor: "year",
               },
               {
-                Header: "Fecha",
-                accessor: "dateRentStart",
-                Cell: format(new Date(), 'dd.MM.yyyy'),
+                Header: "Categoría",
+                accessor: "category",
               },
               {
                 Header: "Estado",
