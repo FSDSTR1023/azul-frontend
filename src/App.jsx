@@ -9,28 +9,11 @@ import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoutes } from './components/ProtectedRoutes'
 import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, MAQUINAS, NOTFOUND, USUARIOS } from './schemas/Navigaton-schema'
 import { NotFound } from './pages/NotFound'
-import { Maquinas } from './pages/Maquinas'
 
 function App() {
     return (
         <AuthProvider>
             <BrowserRouter>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/maquinas">Máquinas</Link>
-                        </li>
-                        <li>
-                            <Link to="/incidencias">Incidencias</Link>
-                        </li>
-                        <li>
-                            <Link to="/alquileres">Alquileres</Link>
-                        </li>
-                        <li>
-                            <Link to="/usuarios">Usuarios</Link>
-                        </li>
-                    </ul>
-                </nav>
                 <Routes>
                     <Route path="/" element={<Navigate to={DASBOARD.navigation} />} />
                     <Route path={LOGIN.navigation} element={<LoginPage />} />
