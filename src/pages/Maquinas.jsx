@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Tabla } from '../components/Tabla'
+import { Layout } from '../components/Layout'
 // import { Pill } from '../components/Pill'
 // import { machineStateType } from '../schemas/machine-state-schema'
 
@@ -18,7 +19,7 @@ export const Maquinas = () => {
     () => [
       {
         header: 'ID',
-        accessor: '_id'
+        accessorKey: '_id'
       },
       {
         header: 'Marca y modelo',
@@ -51,10 +52,8 @@ export const Maquinas = () => {
   )
 
   return (
-    <>
-      <div>
-        <Tabla columns={columns} data={data} />
-      </div>
-    </>
+    <Layout pageName='Alquileres' buttonText='Agregar'>
+      <Tabla columns={columns} data={data} />
+    </Layout>
   )
 }

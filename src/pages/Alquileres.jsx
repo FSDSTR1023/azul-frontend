@@ -54,10 +54,8 @@ export const Alquileres = () => {
   )
 
   return (
-    <>
-      <Layout pageName='Alquileres' buttonText='Agregar'>
-        <Tabla columns={columns} data={data} />
-      </Layout>
-    </>
+    <Layout pageName='Alquileres' buttonText='Agregar'>
+      <Tabla columns={columns} data={data} />
+    </Layout>
   )
 }
