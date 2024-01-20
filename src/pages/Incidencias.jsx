@@ -2,7 +2,10 @@ import axios from 'axios'
 import moment from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 
-import Tabla from '../components/Tabla'
+import { Tabla } from '../components/Tabla'
+import { Layout } from '../components/Layout'
+import { issueType } from '../schemas/issues-state-schema'
+import { Pill } from '../components/Pill'
 
 export const Incidencias = () => {
   const [data, setData] = useState([])
@@ -11,62 +14,58 @@ export const Incidencias = () => {
     (async () => {
       const result = await axios('http://localhost:3000/incident')
       setData(result.data)
-      console.log('data', result.data)
     })()
   }, [])
 
   const columns = useMemo(
     () => [
       {
-        Header: 'Incidencias',
-        columns: [
-          {
-            Header: 'ID',
-            accessor: '_id'
-          },
-          {
-            Header: 'Asunto',
-            accessor: 'incident'
-          },
-          {
-            Header: 'Tipo',
-            accessor: 'type'
-          },
-          {
-            Header: 'Máquina afectada',
-            accessor:
-                row => `${row.machine.make} ${row.machine.model}`
-          },
-          {
-            Header: 'Cliente',
-            accessor:
-                row => `${row.userClient.name} ${row.userClient.lastName}`
-          },
-          {
-            id: 'dateReported',
-            Header: 'Fecha',
-            accessor: d => {
-              return moment(d.dateReported)
-                .local()
-                .format('DD.MM.YYYY')
-            }
-            // Cell: format(new Date(), 'dd.MM.yyyy'),
-          },
-          {
-            Header: 'Estado',
-            accessor: 'status'
-          }
-        ]
+        header: 'ID',
+        accessorKey: '_id'
+      },
+      {
+        header: 'Asunto',
+        accessorKey: 'incident'
+      },
+      {
+        header: 'Tipo',
+        accessorKey: 'type'
+      },
+      {
+        header: 'Máquina afectada',
+        accessorFn:
+            row => `${row.machine.make} ${row.machine.model}`
+      },
+      {
+        header: 'Cliente',
+        accessorFn:
+            row => `${row.userClient.name} ${row.userClient.lastName}`
+      },
+      {
+        id: 'dateReported',
+        header: 'Fecha',
+        accessorFn: row => {
+          return moment(row.dateReported)
+            .local()
+            .format('DD/MM/YYYY')
+        }
+      },
+      {
+        header: 'Estado',
+        accessorKey: 'status',
+        cell: ({ row, getValue }) => {
+          const status = issueType.find(s => s.value === getValue())
+          return (<Pill color={status.color}>{status.text}</Pill>)
+        }
       }
     ],
     []
   )
 
   return (
-    <>
-      <div>
-        <Tabla columns={columns} data={data} />
-      </div>
-    </>
+    <Layout pageName='Incidencias' buttonText='Agregar'>
+      <Tabla columns={columns} data={data} />
+    </Layout>
+
   )
 }

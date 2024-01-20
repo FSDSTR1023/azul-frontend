@@ -7,14 +7,6 @@ import {
 } from '@tanstack/react-table'
 import { SortDownIcon, SortIcon, SortUpIcon } from './Icons'
 export const Tabla = ({ columns, data }) => {
-//   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
-//     {
-//       columns,
-//       data
-//     },
-//     useSortBy
-//   )
-
   const tableRef = useReactTable({
     data,
     columns,

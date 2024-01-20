@@ -1,49 +1,51 @@
 import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 
-import Tabla from '../components/Tabla'
+import { Tabla } from '../components/Tabla'
+// import { Pill } from '../components/Pill'
+// import { machineStateType } from '../schemas/machine-state-schema'
 
 export const Maquinas = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const result = await axios('http://localhost:3000/machine')
       setData(result.data)
     })()
   }, [])
-
   const columns = useMemo(
     () => [
       {
-        Header: 'Máquinas',
-        columns: [
-          {
-            Header: 'ID',
-            accessor: '_id'
-          },
-          {
-            Header: 'Marca y modelo',
-            accessor: 'make',
-            aggregate: 'count',
-            Aggregated: ({ value }) => `${value} Máquina`,
-            Cell: ({ row }) =>
-              row.original ? row.original.make + ' ' + row.original.model : row.groupByVal
-          },
-          {
-            Header: 'Año',
-            accessor: 'year'
-          },
-          {
-            Header: 'Categoría',
-            accessor: 'category'
-          },
-          {
-            Header: 'Estado',
-            accessor: 'status'
-          }
-        ]
+        header: 'ID',
+        accessor: '_id'
+      },
+      {
+        header: 'Marca y modelo',
+        accessorKey: 'make',
+        cell: ({ row }) =>
+          row.original ? row.original.make + ' ' + row.original.model : row.groupByVal
+      },
+      {
+        header: 'Año',
+        accessorKey: 'year'
+      },
+      {
+        header: 'Categoría',
+        accessorKey: 'category'
+      },
+      {
+        header: 'Precio/Dia',
+        accessorKey: 'pricePerDay'
       }
+      // {
+      //   header: 'Estado',
+      //   accessorKey: 'status',
+      //   cell: ({ row, getValue }) => {
+      //     const status = machineStateType.find(s => s.value === getValue())
+      //     return (<Pill color={status.color}>{status.text}</Pill>)
+      //   }
+      // }
     ],
     []
   )
