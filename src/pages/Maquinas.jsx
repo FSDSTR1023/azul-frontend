@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 
 import Tabla from '../components/Tabla'
+import { Layout } from '../components/Layout'
 
 export const Maquinas = () => {
   const [data, setData] = useState([])
@@ -49,10 +50,8 @@ export const Maquinas = () => {
   )
 
   return (
-    <>
-      <div>
-        <Tabla columns={columns} data={data} />
-      </div>
-    </>
+    <Layout pageName='Máquinas' buttonText='Agregar'>
+      <Tabla columns={columns} data={data} />
+    </Layout>
   )
 }

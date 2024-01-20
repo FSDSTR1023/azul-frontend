@@ -3,6 +3,7 @@ import moment from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 
 import Tabla from '../components/Tabla'
+import { Layout } from '../components/Layout'
 
 export const Incidencias = () => {
   const [data, setData] = useState([])
@@ -63,10 +64,10 @@ export const Incidencias = () => {
   )
 
   return (
-    <>
-      <div>
-        <Tabla columns={columns} data={data} />
-      </div>
-    </>
+    <Layout pageName='Incidencias' buttonText='Agregar'>
+      <Tabla columns={columns} data={data} />
+
+    </Layout>
+
   )
 }
