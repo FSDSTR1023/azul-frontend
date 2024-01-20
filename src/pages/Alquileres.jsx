@@ -29,7 +29,7 @@ export const Alquileres = () => {
             accessor: (row) => `${row.machine.make} ${row.machine.model}`
           },
           {
-            Header: 'cliente',
+            Header: 'Cliente',
             accessor: (row) => `${row.user.name} ${row.user.lastName}`
           },
           {
