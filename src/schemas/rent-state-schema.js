@@ -13,3 +13,4 @@ export const SEND = {
   text: 'Enviada',
   color: '#A6DFFF'
 }
+export const rentStateType = [RETURN, ISSUED, SEND]

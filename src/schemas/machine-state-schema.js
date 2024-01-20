@@ -13,3 +13,5 @@ export const NOTRENTED = {
   text: 'No alquilada',
   color: '#FFF6A6'
 }
+
+export const machineStateType = [RENTED, REPAIRING, NOTRENTED]
