@@ -6,7 +6,7 @@ import {
   flexRender
 } from '@tanstack/react-table'
 import { SortDownIcon, SortIcon, SortUpIcon } from './Icons'
-export default function Tabla ({ columns, data }) {
+export const Tabla = ({ columns, data }) => {
 //   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
 //     {
 //       columns,
