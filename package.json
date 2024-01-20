@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -31,7 +31,31 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "postcss": "^8.4.32",
+    "standard": "^17.1.0",
     "tailwindcss": "^3.3.6",
     "vite": "^5.0.0"
-  }
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/standard/eslintrc.json",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended"
+    ],
+    "plugins": [
+      "react",
+      "react-hooks",
+      "react-refresh"
+    ],
+    "rules": {
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "dist"
+  ]
 }
+
