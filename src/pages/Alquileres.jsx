@@ -22,7 +22,7 @@ export const Alquileres = () => {
     () => [
       {
         header: 'ID',
-        accessorKey: '_id'
+        accessorKey: 'customId'
       },
       {
         header: 'Máquina',

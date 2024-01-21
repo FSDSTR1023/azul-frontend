@@ -19,7 +19,7 @@ export const Maquinas = () => {
     () => [
       {
         header: 'ID',
-        accessorKey: '_id'
+        accessorKey: 'customId'
       },
       {
         header: 'Marca y modelo',
@@ -36,7 +36,7 @@ export const Maquinas = () => {
         accessorKey: 'category'
       },
       {
-        header: 'Precio/Dia',
+        header: 'Precio/Día',
         accessorKey: 'pricePerDay'
       }
       // {
@@ -52,7 +52,7 @@ export const Maquinas = () => {
   )
 
   return (
-    <Layout pageName='Alquileres' buttonText='Agregar'>
+    <Layout pageName='Máquinas' buttonText='Agregar'>
       <Tabla columns={columns} data={data} />
     </Layout>
   )

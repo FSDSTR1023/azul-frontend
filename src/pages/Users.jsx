@@ -37,7 +37,7 @@ export const Users = () => {
   )
 
   return (
-    <Layout pageName='Alquileres' buttonText='Agregar'>
+    <Layout pageName='Usuarios' buttonText='Agregar'>
       <Tabla columns={columns} data={data} />
     </Layout>
   )
