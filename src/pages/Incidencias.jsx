@@ -1,4 +1,3 @@
-import axios from 'axios'
 import moment from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -6,15 +5,17 @@ import { Tabla } from '../components/Tabla'
 import { Layout } from '../components/Layout'
 import { issueType } from '../schemas/issues-state-schema'
 import { Pill } from '../components/Pill'
+import { getAllIncidents } from '../api/incidencias'
 
 export const Incidencias = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    (async () => {
-      const result = await axios('http://localhost:3000/incident')
+    const getIncidents = async () => {
+      const result = await getAllIncidents()
       setData(result.data)
-    })()
+    }
+    getIncidents()
   }, [])
 
   const columns = useMemo(

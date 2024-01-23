@@ -1,17 +1,18 @@
-import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Tabla } from '../components/Tabla'
 import { Layout } from '../components/Layout'
+import { getAllUsers } from '../api/usuarios'
 
 export const Users = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    (async () => {
-      const result = await axios('http://localhost:3000/user/users')
+    const getUsers = async () => {
+      const result = await getAllUsers()
       setData(result.data)
-    })()
+    }
+    getUsers()
   }, [])
 
   const columns = useMemo(
