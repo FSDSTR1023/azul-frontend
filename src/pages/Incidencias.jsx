@@ -31,25 +31,25 @@ export const Incidencias = () => {
         header: 'Tipo',
         accessorKey: 'type'
       },
-      {
-        header: 'Máquina',
-        accessor: (row) => `${row.machine.make} ${row.machine.model}`
-      },
-      {
-        header: 'Cliente',
-        accessor: (row) => `${row.user.name} ${row.user.lastName}`
-      },
-
       // {
-      //   header: 'Máquina afectada',
-      //   accessorFn:
-      //       row => `${row.machine.make} ${row.machine.model}`
+      //   header: 'Máquina',
+      //   accessor: (row) => `${row.machine.make} ${row.machine.model}`
       // },
       // {
       //   header: 'Cliente',
-      //   accessorFn:
-      //       row => `${row.userClient.name} ${row.userClient.lastName}`
+      //   accessor: (row) => `${row.user.name} ${row.user.lastName}`
       // },
+
+      {
+        header: 'Máquina afectada',
+        accessorFn:
+            row => `${row.machine.make} ${row.machine.model}`
+      },
+      {
+        header: 'Cliente',
+        accessorFn:
+            row => `${row.userClient.name} ${row.userClient.lastName}`
+      },
       {
         id: 'dateReported',
         header: 'Fecha',

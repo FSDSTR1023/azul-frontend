@@ -14,6 +14,7 @@ export const Alquileres = () => {
     const getRents = async () => {
       const result = await getAllRents()
       setData(result.data)
+      console.log("data", result.data)
     }
     getRents()
   }, [])
@@ -26,12 +27,22 @@ export const Alquileres = () => {
       },
       {
         header: 'Máquina',
-        accessor: (row) => `${row.machine.make} ${row.machine.model}`
+        accessorFn:
+            row => `${row.machine.make} ${row.machine.model}`
       },
       {
         header: 'Cliente',
-        accessor: (row) => `${row.user.name} ${row.user.lastName}`
+        accessorFn:
+            row => `${row.user.name} ${row.user.lastName}`
       },
+      // {
+      //   header: 'Máquina',
+      //   cell: (row) => `${row.machine.make} ${row.machine.model}`
+      // },
+      // {
+      //   header: 'Cliente',
+      //   cell: (row) => `${row.user.name} ${row.user.lastName}`
+      // },
       {
         header: 'Fecha',
         id: 'dateReported',
