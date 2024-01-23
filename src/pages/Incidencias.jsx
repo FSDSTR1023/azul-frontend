@@ -33,13 +33,27 @@ export const Incidencias = () => {
       },
       {
         header: 'Máquina afectada',
-        accessorFn:
-            row => `${row.machine.make} ${row.machine.model}`
+        accessorKey: 'machine',
+        cell: ({ row, getValue }) => {
+          if (getValue() === undefined) return ''
+          return `${getValue().make} ${getValue().model}`
+        }
       },
       {
         header: 'Cliente',
-        accessorFn:
-            row => `${row.userClient.name} ${row.userClient.lastName}`
+        accessorKey: 'userClient',
+        cell: ({ row, getValue }) => {
+          if (getValue() === undefined) return ''
+          return `${getValue().name} ${getValue().lastName}`
+        }
+      },
+      {
+        header: 'AT Asignado',
+        accessorKey: 'userAT',
+        cell: ({ row, getValue }) => {
+          if (getValue() === undefined) return ''
+          return `${getValue().name} ${getValue().lastName}`
+        }
       },
       {
         id: 'dateReported',

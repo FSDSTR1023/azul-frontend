@@ -26,11 +26,19 @@ export const Alquileres = () => {
       },
       {
         header: 'Máquina',
-        accessor: (row) => `${row.machine.make} ${row.machine.model}`
+        accessorKey: 'machine',
+        cell: ({ row, getValue }) => {
+          if (getValue() === undefined) return ''
+          return `${getValue().make} ${getValue().model}`
+        }
       },
       {
         header: 'Cliente',
-        accessor: (row) => `${row.user.name} ${row.user.lastName}`
+        accessorKey: 'user',
+        cell: ({ row, getValue }) => {
+          if (getValue() === undefined) return ''
+          return `${getValue().name} ${getValue().lastName}`
+        }
       },
       {
         header: 'Fecha',

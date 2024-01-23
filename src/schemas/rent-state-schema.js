@@ -3,8 +3,8 @@ export const RETURN = {
   text: 'Devuelto',
   color: '#A6FFC9'
 }
-export const ISSUED = {
-  value: 'ISSUED',
+export const IN_REPAIR = {
+  value: 'IN_REPAIR',
   text: 'Averiada',
   color: '#FFF6A6'
 }
@@ -13,4 +13,4 @@ export const SEND = {
   text: 'Enviada',
   color: '#A6DFFF'
 }
-export const rentStateType = [RETURN, ISSUED, SEND]
+export const rentStateType = [RETURN, IN_REPAIR, SEND]
