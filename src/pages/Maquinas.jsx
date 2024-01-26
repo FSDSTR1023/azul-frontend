@@ -5,9 +5,11 @@ import { Layout } from '../components/Layout'
 import { getAllMachines } from '../api/maquinas'
 import { Pill } from '../components/Pill'
 import { machineStateType } from '../schemas/machine-state-schema'
+import { Header } from '../components/Header'
 
 export const Maquinas = () => {
   const [data, setData] = useState([])
+  const [searchQuery, setsearchQuery] = useState([])
 
   useEffect(() => {
     const getMachines = async () => {
@@ -45,7 +47,6 @@ export const Maquinas = () => {
         accessorKey: 'status',
         cell: ({ row, getValue }) => {
           if (getValue() === undefined) return ''
-          console.log(getValue())
           const status = machineStateType.find(s => s.value === getValue())
           return (<Pill color={status.color}>{status.text}</Pill>)
         }
@@ -55,8 +56,9 @@ export const Maquinas = () => {
   )
 
   return (
-    <Layout pageName='Alquileres' buttonText='Agregar'>
-      <Tabla columns={columns} data={data} />
+    <Layout pageName='Maquinas' visibleSearch visibleBtn>
+      <Header pageName='Aqui' visibleBtn visibleSearch buttonText='Agregar Maquina' setsearchQuery={setsearchQuery} />
+      <Tabla columns={columns} data={data} searchQuery={searchQuery} />
     </Layout>
   )
 }
