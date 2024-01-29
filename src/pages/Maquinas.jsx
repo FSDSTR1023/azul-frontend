@@ -56,8 +56,8 @@ export const Maquinas = () => {
   )
 
   return (
-    <Layout pageName='Maquinas' visibleSearch visibleBtn>
-      <Header pageName='Aqui' visibleBtn visibleSearch buttonText='Agregar Maquina' setsearchQuery={setsearchQuery} />
+    <Layout>
+      <Header pageName='Maquinas' visibleBtn visibleSearch buttonText='Agregar Maquina' setsearchQuery={setsearchQuery} />
       <Tabla columns={columns} data={data} searchQuery={searchQuery} />
     </Layout>
   )
