@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { DashboardIcon, IssueIcon, LogoutIcon, MachineIcon, RentIcon, UsersIcon } from './Icons'
-import { CustomLink } from './CustomLink'
+import { CustomNavLink } from './CustomLink'
 import { Logo } from './Logo'
 import { ALQUILERES, DASBOARD, INCIDENCIAS, MAQUINAS, USUARIOS } from '../schemas/Navigaton-schema'
 
@@ -18,34 +18,34 @@ export const AsideNav = ({ className }) => {
         </Link>
         <ul className='flex gap-1 flex-col py-10'>
           <li>
-            <CustomLink to={DASBOARD.navigation}>
+            <CustomNavLink to={DASBOARD.navigation}>
               <DashboardIcon />
               {DASBOARD.name}
-            </CustomLink>
+            </CustomNavLink>
           </li>
           <li>
-            <CustomLink to={ALQUILERES.navigation}>
+            <CustomNavLink to={ALQUILERES.navigation}>
               <RentIcon />
               {ALQUILERES.name}
-            </CustomLink>
+            </CustomNavLink>
           </li>
           <li>
-            <CustomLink to={INCIDENCIAS.navigation}>
+            <CustomNavLink to={INCIDENCIAS.navigation}>
               <IssueIcon />
               {INCIDENCIAS.name}
-            </CustomLink>
+            </CustomNavLink>
           </li>
           <li>
-            <CustomLink to={USUARIOS.navigation}>
+            <CustomNavLink to={USUARIOS.navigation}>
               <UsersIcon />
               {USUARIOS.name}
-            </CustomLink>
+            </CustomNavLink>
           </li>
           <li>
-            <CustomLink to={MAQUINAS.navigation}>
+            <CustomNavLink to={MAQUINAS.navigation}>
               <MachineIcon />
               {MAQUINAS.name}
-            </CustomLink>
+            </CustomNavLink>
           </li>
         </ul>
       </nav>
