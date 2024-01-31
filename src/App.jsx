@@ -9,10 +9,12 @@ import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoutes } from './components/ProtectedRoutes'
 import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, MAQUINAS, NOTFOUND, USUARIOS } from './schemas/Navigaton-schema'
 import { NotFound } from './pages/NotFound'
+import { Toaster } from 'sonner'
 
 function App () {
   return (
     <AuthProvider>
+      <Toaster />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate to={DASBOARD.navigation} />} />
