@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button } from './Button'
+import { Button } from './Button/Button'
 import { ChevronDown } from './Icons'
 
 export const Dropdown = ({ buttonText = 'Open', children, dynamicText, variant }) => {
