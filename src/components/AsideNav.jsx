@@ -12,7 +12,7 @@ export const AsideNav = ({ className }) => {
     signout()
   }
   return (
-    <aside className={`${className} bg-[#FCFCFC] flex gap-4 flex-col h-screen`}>
+    <aside className={`${className} bg-[#FCFCFC] flex gap-4 flex-col h-screen shadow-xl`}>
       <nav className='flex flex-1 flex-col'>
         <Link className='p-5 px-7 border-b-2' to='/dashboard'>
           <Logo />
