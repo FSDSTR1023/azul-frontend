@@ -17,7 +17,7 @@ export const AsideNav = ({ className }) => {
         <Link className='p-5 px-7 border-b-2' to='/dashboard'>
           <Logo />
         </Link>
-        <ul className='flex gap-1 flex-col p-5'>
+        <ul className='flex gap-2 flex-col p-5'>
           <li>
             <CustomNavLink to={DASBOARD.navigation}>
               <DashboardIcon />
