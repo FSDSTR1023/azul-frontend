@@ -4,6 +4,7 @@ import { DashboardIcon, IssueIcon, LogoutIcon, MachineIcon, RentIcon, UsersIcon 
 import { CustomNavLink } from './CustomLink'
 import { Logo } from './Logo'
 import { ALQUILERES, DASBOARD, INCIDENCIAS, MAQUINAS, USUARIOS } from '../schemas/Navigaton-schema'
+import { Button } from './Button/Button'
 
 export const AsideNav = ({ className }) => {
   const { user, signout } = useAuth()
@@ -11,12 +12,12 @@ export const AsideNav = ({ className }) => {
     signout()
   }
   return (
-    <aside className={`${className} bg-[#FCFCFC] flex p-5 gap-4 flex-col h-screen`}>
+    <aside className={`${className} bg-[#FCFCFC] flex gap-4 flex-col h-screen`}>
       <nav className='flex flex-1 flex-col'>
-        <Link to='/dashboard'>
+        <Link className='p-5 px-7 border-b-2' to='/dashboard'>
           <Logo />
         </Link>
-        <ul className='flex gap-1 flex-col py-10'>
+        <ul className='flex gap-1 flex-col p-5'>
           <li>
             <CustomNavLink to={DASBOARD.navigation}>
               <DashboardIcon />
@@ -49,7 +50,7 @@ export const AsideNav = ({ className }) => {
           </li>
         </ul>
       </nav>
-      <div className='flex gap-4 items-center'>
+      <div className='flex gap-4 items-center border-t-2 p-5'>
         <img
           className='rounded-full h-[3.25rem] aspect-square'
           src='https://i.pravatar.cc/300'
@@ -59,9 +60,9 @@ export const AsideNav = ({ className }) => {
           <p>{user.name}</p>
           <p>{user.role}</p>
         </div>
-        <button className='p-2' onClick={logout}>
+        <Button className='p-2' variant='ghost' onClick={logout}>
           <LogoutIcon />
-        </button>
+        </Button>
       </div>
     </aside>
   )
