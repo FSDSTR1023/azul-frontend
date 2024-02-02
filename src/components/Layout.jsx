@@ -1,7 +1,7 @@
 // import { Header } from './Header'
 import { AsideNav } from './AsideNav'
 
-export const Layout = ({ children, pageName, buttonText, visibleBtn, visibleSearch }) => {
+export const Layout = ({ children }) => {
   return (
     <div id='layout' className='w-full h-screen'>
       <AsideNav className='[grid-area:aside]' />

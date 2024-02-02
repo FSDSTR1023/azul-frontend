@@ -42,9 +42,7 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
           <Dropdown dynamicText={columnToFilter} buttonText='Selecciona columna a Buscar'>
             {tableRef
               .getAllColumns()
-              .filter(
-                (column) => column.getCanFilter()
-              )
+              .filter((column) => column.getCanFilter())
               .map((column) => {
                 return (
                   <li
@@ -77,7 +75,7 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
             })}
         </Dropdown>
       </div>
-      <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
+      <div className='relative overflow-visible shadow-md sm:rounded-lg'>
         <table
           className='w-full text-sm text-left rtl:text-right text-gray-500 overflow-x-scroll'
         >
@@ -85,7 +83,7 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
             {tableRef.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th className='px-6 py-3' key={header.id} onClick={header.column.getToggleSortingHandler()}>
+                  <th className='px-6 py-3' key={header.id} onClick={() => header.column.getToggleSortingHandler()}>
                     {header.isPlaceholder
                       ? null
                       : (
@@ -94,7 +92,11 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
                             header.column.columnDef.header
                         }
                           {header.column.getCanSort() && (
-                            { asc: <SortUpIcon />, desc: <SortDownIcon /> }[header.column.getIsSorted()] || <SortIcon />
+                            header.column.getIsSorted() === 'asc'
+                              ? <SortUpIcon />
+                              : header.column.getIsSorted() === 'desc'
+                                ? <SortDownIcon />
+                                : <SortIcon />
                           )}
                         </div>
                         )}

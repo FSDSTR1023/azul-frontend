@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { Button } from '../components/Button/Button'
-import { Input } from '../components/Input'
+import { Input } from '../components/Forms/Input'
 import { useAuth } from '../context/AuthContext'
 import { Navigate } from 'react-router'
 

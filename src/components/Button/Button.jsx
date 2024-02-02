@@ -9,7 +9,7 @@ export const Button = ({ className, type, onClick, children, variant = 'primary'
   }
   return (
     <button
-      className={`${addedClass} ${variantClasses[variant]}  py-2 px-3 rounded transition text-sm flex gap-1 items-center`}
+      className={`${addedClass} ${variantClasses[variant]} py-2 px-3 rounded transition text-sm flex gap-1 items-center justify-center`}
       type={type || 'button'}
       onClick={onClick}
     >

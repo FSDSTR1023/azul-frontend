@@ -8,10 +8,12 @@ import { machineStateType } from '../schemas/machine-state-schema'
 import { Header } from '../components/Header'
 import { Dropdown } from '../components/Dropdown'
 import { copyToClipboard } from '../helpers/copyClipboards'
+import { MachineDrawer } from '../components/Drawers/Machine'
+import { MainDrawer } from '../components/Drawers/MainDrawer'
 
 export const Maquinas = () => {
   const [data, setData] = useState([])
-
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   useEffect(() => {
     const getMachines = async () => {
       const result = await getAllMachines()
@@ -30,6 +32,9 @@ export const Maquinas = () => {
   function handleCopyCategory (row) {
     const { category } = row.original
     copyToClipboard(category)
+  }
+  const handleToggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen)
   }
   const columns = useMemo(
     () => [
@@ -94,21 +99,21 @@ export const Maquinas = () => {
               <li onClick={() => handleCopyCategory(row)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Copiar Categoria
               </li>
-              <li className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
+              <li onClick={() => handleToggleDrawer()} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Editar
               </li>
             </Dropdown>
           )
         }
       }
-    ],
-    []
+    ], []
   )
 
   return (
     <Layout>
-      <Header pageName='Maquinas' buttonText='Agregar Maquina' />
+      <Header pageName='Maquinas' buttonText='Agregar Maquina' toggleDrawer={handleToggleDrawer} />
       <Tabla columns={columns} data={data} defaultFilter='marca' />
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}><MachineDrawer /></MainDrawer>
     </Layout>
 
   )

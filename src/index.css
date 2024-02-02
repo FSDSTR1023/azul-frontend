@@ -21,3 +21,18 @@ body {
   grid-template-columns: 300px 1fr; 
   grid-template-rows: auto 1fr; 
 }
+#drawer > :first-child{
+  right: -100%;
+  transition: right 0.5s ease-in-out;
+}
+#drawer > :last-child{
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+#drawer.open > :first-child{
+  right: 0;
+}
+#drawer.open > :last-child{
+  opacity: 1;
+  pointer-events: auto;
+}
