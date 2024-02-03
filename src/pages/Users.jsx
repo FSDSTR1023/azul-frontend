@@ -6,9 +6,12 @@ import { getAllUsers } from '../api/usuarios'
 import { Header } from '../components/Header'
 import { Dropdown } from '../components/Dropdown'
 import { copyToClipboard } from '../helpers/copyClipboards'
+import { UserDrawer } from '../components/Drawers/UserDrawer'
+import { MainDrawer } from '../components/Drawers/MainDrawer'
 
 export const Users = () => {
   const [data, setData] = useState([])
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
     const getUsers = async () => {
@@ -25,6 +28,9 @@ export const Users = () => {
   function handleCopyName (row) {
     const fullName = `${row.original.name} ${row.original.lastName}`
     copyToClipboard(fullName)
+  }
+  const handleToggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen)
   }
   const columns = useMemo(
     () => [
@@ -64,7 +70,7 @@ export const Users = () => {
               <li onClick={() => handleCopyEmail(row)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Copiar Email
               </li>
-              <li className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
+              <li onClick={() => handleToggleDrawer()} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Editar
               </li>
             </Dropdown>
@@ -78,8 +84,9 @@ export const Users = () => {
 
   return (
     <Layout>
-      <Header pageName='Users' buttonText='Agregar Maquina' />
+      <Header pageName='Users' buttonText='Agregar Usuario' toggleDrawer={handleToggleDrawer} />
       <Tabla columns={columns} data={data} defaultFilter='nombre' />
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}><UserDrawer /></MainDrawer>
     </Layout>
   )
 }

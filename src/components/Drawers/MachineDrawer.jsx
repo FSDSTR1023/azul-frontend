@@ -19,7 +19,7 @@ export const MachineDrawer = ({ toggleDrawer }) => {
       <form onSubmit={onSubmit} className='flex flex-col gap-4'>
         <Input
           label='Marca'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='mark'
@@ -27,14 +27,14 @@ export const MachineDrawer = ({ toggleDrawer }) => {
         />
         <Input
           label='Modelo'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='mark'
           register={register('mark', { required: 'La marca es requerida' })}
         />
         <Select
-          label='Categoria'
+          label='Categoría'
           placeholder='John Dere'
           type='text'
           errors={errors}
@@ -42,10 +42,10 @@ export const MachineDrawer = ({ toggleDrawer }) => {
           options={['Tractor']}
           register={register('mark', { required: 'La marca es requerida' })}
         />
-        <Textarea label='Descrpción' placeholder='Es una marca muy reconocida...' />
+        <Textarea label='Descripción' placeholder='Es una marca muy reconocida...' />
         <Input
           label='Precio x Día'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='mark'

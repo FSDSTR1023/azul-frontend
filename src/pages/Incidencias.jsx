@@ -9,9 +9,13 @@ import { getAllIncidents } from '../api/incidencias'
 import { Header } from '../components/Header'
 import { Dropdown } from '../components/Dropdown'
 import { copyToClipboard } from '../helpers/copyClipboards'
+import { IncidentDrawerAT } from '../components/Drawers/IncidentDrawerAT'
+import { MainDrawer } from '../components/Drawers/MainDrawer'
 
 export const Incidencias = () => {
   const [data, setData] = useState([])
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
   function handleCopyId (row) {
     const { customId } = row.original
     copyToClipboard(customId)
@@ -29,6 +33,9 @@ export const Incidencias = () => {
     const { machine } = row.original
     const fullName = `${machine.make} ${machine.model}`
     copyToClipboard(fullName)
+  }
+  const handleToggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen)
   }
   useEffect(() => {
     const getIncidents = async () => {
@@ -137,10 +144,10 @@ export const Incidencias = () => {
                 Copiar Cliente
               </li>
               <li onClick={() => handleCopyMachine(row)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
-                Copiar Maaquina
+                Copiar Máquina
               </li>
-              <li className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
-                Editar
+              <li onClick={() => handleToggleDrawer()} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
+                Ver
               </li>
             </Dropdown>
           )
@@ -154,6 +161,7 @@ export const Incidencias = () => {
     <Layout>
       <Header pageName='Incidencias' />
       <Tabla columns={columns} data={data} defaultFilter='asunto' />
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}><IncidentDrawerAT /></MainDrawer>
     </Layout>
   )
 }

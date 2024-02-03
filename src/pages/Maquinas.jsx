@@ -8,7 +8,7 @@ import { machineStateType } from '../schemas/machine-state-schema'
 import { Header } from '../components/Header'
 import { Dropdown } from '../components/Dropdown'
 import { copyToClipboard } from '../helpers/copyClipboards'
-import { MachineDrawer } from '../components/Drawers/Machine'
+import { MachineDrawer } from '../components/Drawers/MachineDrawer'
 import { MainDrawer } from '../components/Drawers/MainDrawer'
 
 export const Maquinas = () => {
