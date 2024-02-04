@@ -5,7 +5,7 @@ import { Select } from '../Forms/Select'
 import { Textarea } from '../Forms/Textarea'
 import { Input } from '../Forms/Input'
 
-export const MachineDrawer = ({ toggleDrawer }) => {
+export const MachineDrawer = ({ toggleDrawer, mode }) => {
   const {
     handleSubmit,
     register,
@@ -53,7 +53,9 @@ export const MachineDrawer = ({ toggleDrawer }) => {
         />
         {/* <Upload label='Imagenes' />
         <Upload label='Documentación' /> */}
-        <Button type='submit'>Crear Máquina</Button>
+        <Button type='submit'>
+          {mode === 'create' ? 'Crear Máquina' : 'Editar Máquina'}
+        </Button>
       </form>
     </>
   )
