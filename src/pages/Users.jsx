@@ -12,6 +12,7 @@ import { MainDrawer } from '../components/Drawers/MainDrawer'
 export const Users = () => {
   const [data, setData] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [editUser, setEditUser] = useState(null)
 
   useEffect(() => {
     const getUsers = async () => {
@@ -29,7 +30,8 @@ export const Users = () => {
     const fullName = `${row.original.name} ${row.original.lastName}`
     copyToClipboard(fullName)
   }
-  const handleToggleDrawer = () => {
+  const handleToggleDrawer = (user) => {
+    setEditUser(user)
     setIsDrawerOpen(!isDrawerOpen)
   }
   const columns = useMemo(
@@ -70,7 +72,7 @@ export const Users = () => {
               <li onClick={() => handleCopyEmail(row)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Copiar Email
               </li>
-              <li onClick={() => handleToggleDrawer()} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
+              <li onClick={() => handleToggleDrawer(row.original)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Editar
               </li>
             </Dropdown>
@@ -84,9 +86,11 @@ export const Users = () => {
 
   return (
     <Layout>
-      <Header pageName='Users' buttonText='Agregar Usuario' toggleDrawer={handleToggleDrawer} />
+      <Header pageName='Users' buttonText='Agregar Usuario' toggleDrawer={() => handleToggleDrawer(null)} />
       <Tabla columns={columns} data={data} defaultFilter='nombre' />
-      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}><UserDrawer /></MainDrawer>
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(null)}>
+        <UserDrawer mode={editUser ? 'edit' : 'create'} toggleDrawer={() => handleToggleDrawer(editUser)} />
+      </MainDrawer>
     </Layout>
   )
 }

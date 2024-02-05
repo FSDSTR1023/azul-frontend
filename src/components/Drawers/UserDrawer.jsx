@@ -2,10 +2,10 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '../Button/Button'
 import { Select } from '../Forms/Select'
-import { Textarea } from '../Forms/Textarea'
+// import { Textarea } from '../Forms/Textarea'
 import { Input } from '../Forms/Input'
 
-export const UserDrawer = ({ toggleDrawer }) => {
+export const UserDrawer = ({ toggleDrawer, mode }) => {
   const {
     handleSubmit,
     register,
@@ -22,7 +22,7 @@ export const UserDrawer = ({ toggleDrawer }) => {
           placeholder='John'
           type='text'
           errors={errors}
-          name='mark'
+          name='name'
           register={register('mark', { required: 'El nombre es requerido' })}
         />
         <Input
@@ -30,7 +30,7 @@ export const UserDrawer = ({ toggleDrawer }) => {
           placeholder='Doe'
           type='text'
           errors={errors}
-          name='mark'
+          name='lastName'
           register={register('mark', { required: 'El apellido es requerido' })}
         />
         <Input
@@ -38,7 +38,7 @@ export const UserDrawer = ({ toggleDrawer }) => {
           placeholder='johndoe@mail.com'
           type='email'
           errors={errors}
-          name='mark'
+          name='email'
           register={register('mark', { required: 'El correo electrónico es requerido' })}
         />
         <Input
@@ -46,7 +46,7 @@ export const UserDrawer = ({ toggleDrawer }) => {
           placeholder='*****'
           type='password'
           errors={errors}
-          name='mark'
+          name='password'
           register={register('mark', { required: 'La contraseña es requerida' })}
         />
         <p>Generar contraseña</p>
@@ -55,13 +55,15 @@ export const UserDrawer = ({ toggleDrawer }) => {
           placeholder='Seleccionar rol de usuario'
           type='text'
           errors={errors}
-          name='mark'
-          options={['Tractor']}
-          register={register('mark', { required: 'El rol de usuario es requerido' })}
+          name='role'
+          options={['Cliente', 'Admin', 'Atención al Cliente']}
+          register={register('role', { required: 'El rol de usuario es requerido' })}
         />
         {/* <Upload label='Imagenes' />
         <Upload label='Documentación' /> */}
-        <Button type='submit'>Crear Usuario</Button>
+        <Button type='submit'>
+          {mode === 'create' ? 'Crear Usuario' : 'Editar Usuario'}
+        </Button>
       </form>
     </>
   )

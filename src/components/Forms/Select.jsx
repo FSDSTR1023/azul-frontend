@@ -7,7 +7,7 @@ export const Select = ({ label, placeholder, name, register, options }) => {
       <Label text={label} />
       <select name={name} className='w-full border border-slate-300 py-2 px-4 rounded'>
         {
-            options.map((option, index) => <option key={index} value={option.label}>{option.label}</option>)
+            options.map((option, index) => <option key={index} value={option}>{option}</option>)
         }
       </select>
       {/* {errors && errors[type].message && <span className="text-red-500">{errors[type].message}</span>} */}
