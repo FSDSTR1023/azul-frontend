@@ -4,8 +4,10 @@ import { Button } from '../Button/Button'
 import { Select } from '../Forms/Select'
 import { Textarea } from '../Forms/Textarea'
 import { Input } from '../Forms/Input'
+import { DropzoneImage } from '../Forms/DropzoneImage'
+import { DropzoneFiles } from '../Forms/DropzoneFiles'
 
-export const MachineDrawer = ({ toggleDrawer, mode }) => {
+export const MachineDrawer = ({ submitText }) => {
   const {
     handleSubmit,
     register,
@@ -19,7 +21,7 @@ export const MachineDrawer = ({ toggleDrawer, mode }) => {
       <form onSubmit={onSubmit} className='flex flex-col gap-4'>
         <Input
           label='Marca'
-          placeholder='John Deere'
+          placeholder='John Dere'
           type='text'
           errors={errors}
           name='mark'
@@ -27,14 +29,14 @@ export const MachineDrawer = ({ toggleDrawer, mode }) => {
         />
         <Input
           label='Modelo'
-          placeholder='John Deere'
+          placeholder='John Dere'
           type='text'
           errors={errors}
           name='mark'
           register={register('mark', { required: 'La marca es requerida' })}
         />
         <Select
-          label='Categoría'
+          label='Categoria'
           placeholder='John Dere'
           type='text'
           errors={errors}
@@ -42,20 +44,18 @@ export const MachineDrawer = ({ toggleDrawer, mode }) => {
           options={['Tractor']}
           register={register('mark', { required: 'La marca es requerida' })}
         />
-        <Textarea label='Descripción' placeholder='Es una marca muy reconocida...' />
+        <Textarea label='Descrpción' placeholder='Es una marca muy reconocida...' />
         <Input
           label='Precio x Día'
-          placeholder='John Deere'
+          placeholder='John Dere'
           type='text'
           errors={errors}
           name='mark'
           register={register('mark', { required: 'La marca es requerida' })}
         />
-        {/* <Upload label='Imagenes' />
-        <Upload label='Documentación' /> */}
-        <Button type='submit'>
-          {mode === 'create' ? 'Crear Máquina' : 'Editar Máquina'}
-        </Button>
+        <DropzoneImage label='Imagenes' />
+        <DropzoneFiles label='Archivos' />
+        <Button type='submit'>{submitText}</Button>
       </form>
     </>
   )
