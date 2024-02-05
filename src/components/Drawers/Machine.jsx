@@ -4,8 +4,10 @@ import { Button } from '../Button/Button'
 import { Select } from '../Forms/Select'
 import { Textarea } from '../Forms/Textarea'
 import { Input } from '../Forms/Input'
+import { DropzoneImage } from '../Forms/DropzoneImage'
+import { DropzoneFiles } from '../Forms/DropzoneFiles'
 
-export const MachineDrawer = ({ toggleDrawer }) => {
+export const MachineDrawer = ({ submitText }) => {
   const {
     handleSubmit,
     register,
@@ -51,9 +53,9 @@ export const MachineDrawer = ({ toggleDrawer }) => {
           name='mark'
           register={register('mark', { required: 'La marca es requerida' })}
         />
-        {/* <Upload label='Imagenes' />
-        <Upload label='Documentación' /> */}
-        <Button type='submit'>Crear Máquina</Button>
+        <DropzoneImage label='Imagenes' />
+        <DropzoneFiles label='Archivos' />
+        <Button type='submit'>{submitText}</Button>
       </form>
     </>
   )

@@ -37,7 +37,7 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
   }
   return (
     <>
-      <div className='flex mb-4 justify-between'>
+      <div className='flex mb-4 justify-between overflow-x-auto'>
         <div className='flex'>
           <Dropdown dynamicText={columnToFilter} buttonText='Selecciona columna a Buscar'>
             {tableRef
@@ -77,7 +77,7 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
       </div>
       <div className='relative overflow-visible shadow-md sm:rounded-lg'>
         <table
-          className='w-full text-sm text-left rtl:text-right text-gray-500 overflow-x-scroll'
+          className='w-full text-sm text-left rtl:text-right text-gray-500'
         >
           <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
             {tableRef.getHeaderGroups().map((headerGroup) => (

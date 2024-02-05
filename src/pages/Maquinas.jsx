@@ -14,6 +14,7 @@ import { MainDrawer } from '../components/Drawers/MainDrawer'
 export const Maquinas = () => {
   const [data, setData] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [drawerTitle, setDrawerTitle] = useState('')
   useEffect(() => {
     const getMachines = async () => {
       const result = await getAllMachines()
@@ -33,7 +34,13 @@ export const Maquinas = () => {
     const { category } = row.original
     copyToClipboard(category)
   }
-  const handleToggleDrawer = () => {
+  const handleToggleDrawer = (text) => {
+    console.log(text)
+    if (text !== undefined) {
+      setDrawerTitle('Agregar Maquina')
+      setDrawerTitle(text)
+      console.log(drawerTitle)
+    }
     setIsDrawerOpen(!isDrawerOpen)
   }
   const columns = useMemo(
@@ -99,7 +106,7 @@ export const Maquinas = () => {
               <li onClick={() => handleCopyCategory(row)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Copiar Categoria
               </li>
-              <li onClick={() => handleToggleDrawer()} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
+              <li onClick={() => handleToggleDrawer('Editar Maquina')} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Editar
               </li>
             </Dropdown>
@@ -111,9 +118,9 @@ export const Maquinas = () => {
 
   return (
     <Layout>
-      <Header pageName='Maquinas' buttonText='Agregar Maquina' toggleDrawer={handleToggleDrawer} />
+      <Header pageName='Maquinas' buttonText='Agregar Maquina' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Maquina')} />
       <Tabla columns={columns} data={data} defaultFilter='marca' />
-      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}><MachineDrawer /></MainDrawer>
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}><MachineDrawer submitText={drawerTitle} /></MainDrawer>
     </Layout>
 
   )
