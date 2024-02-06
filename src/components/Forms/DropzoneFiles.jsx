@@ -1,11 +1,9 @@
 import Dropzone from 'react-dropzone'
 import { Label } from './Label'
 import { uploadImage } from '../../api/files'
-import { useState } from 'react'
 import { FileViewer } from './FileViewer'
 
-export const DropzoneFiles = ({ label }) => {
-  const [fileUrl, setFileUrl] = useState([])
+export const DropzoneFiles = ({ label, fileUrls, setFileUrls }) => {
   const customDrop = (files) => {
     console.log(files)
     const formData = new FormData()
@@ -15,9 +13,9 @@ export const DropzoneFiles = ({ label }) => {
 
       const res = await uploadImage(formData)
       console.log(res)
-      console.log(fileUrl)
+      console.log(fileUrls)
 
-      setFileUrl(fileUrl => [...fileUrl, res.data.url])
+      setFileUrls(fileUrl => [...fileUrl, res.data.url])
     })
   }
   return (
@@ -35,11 +33,11 @@ export const DropzoneFiles = ({ label }) => {
 
       </Dropzone>
       {
-        fileUrl.length > 0 && (
+        fileUrls.length > 0 && (
           <div id='file-viewer' className='flex flex-col gap-4'>
             <p>Documentos seleccionadas</p>
             <div className='flex gap-4 border border-dashed border-slate-300 p-2'>
-              {fileUrl.map((fileUrl, index) => (
+              {fileUrls.map((fileUrl, index) => (
                 <FileViewer key={index} url={fileUrl} />
               ))}
             </div>

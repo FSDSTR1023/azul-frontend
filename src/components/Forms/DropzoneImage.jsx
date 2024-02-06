@@ -2,10 +2,10 @@ import Dropzone from 'react-dropzone'
 import { Label } from './Label'
 import { uploadImage } from '../../api/files'
 import { ImageViewer } from './ImageViewer'
-import { useState } from 'react'
+// import { useState } from 'react'
 
-export const DropzoneImage = ({ label }) => {
-  const [imagePreview, setImagePreview] = useState([])
+export const DropzoneImage = ({ label, imagePreview, setImagePreview }) => {
+  // const [imagePreview, setImagePreview] = useState([])
   const customDrop = (files) => {
     console.log(files)
     const formData = new FormData()

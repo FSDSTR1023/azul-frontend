@@ -14,4 +14,6 @@ export const NOTRENTED = {
   color: '#FFF6A6'
 }
 
+export const machineCategories = ['Excavadora', 'Retroexcavadora', 'Cargadora', 'Tractor', 'Camión', 'Grúa', 'Montacargas', 'Taladro', 'Martillo', 'Otro']
+
 export const machineStateType = [RENTED, REPAIRING, NOTRENTED]

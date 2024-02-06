@@ -2,22 +2,27 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { Tabla } from '../components/Tabla'
 import { Layout } from '../components/Layout'
-import { getAllMachines } from '../api/maquinas'
+import { createMachine, getAllMachines } from '../api/maquinas'
 import { Pill } from '../components/Pill'
-import { machineStateType } from '../schemas/machine-state-schema'
+import { NOTRENTED, machineStateType } from '../schemas/machine-state-schema'
 import { Header } from '../components/Header'
 import { Dropdown } from '../components/Dropdown'
 import { copyToClipboard } from '../helpers/copyClipboards'
 import { MachineDrawer } from '../components/Drawers/MachineDrawer'
 import { MainDrawer } from '../components/Drawers/MainDrawer'
+import { toast } from 'sonner'
 
 export const Maquinas = () => {
   const [data, setData] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [drawerTitle, setDrawerTitle] = useState('')
+  const [imagePreview, setImagePreview] = useState([])
+  const [fileUrls, setFileUrls] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
     const getMachines = async () => {
       const result = await getAllMachines()
+      console.log(result)
       setData(result.data)
     }
     getMachines()
@@ -42,6 +47,34 @@ export const Maquinas = () => {
       console.log(drawerTitle)
     }
     setIsDrawerOpen(!isDrawerOpen)
+  }
+  const handleCreateMachine = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    const data = new FormData(e.target)
+    const dataToSend = {
+      make: data.get('mark'),
+      model: data.get('model'),
+      year: data.get('year'),
+      category: data.get('category'),
+      description: data.get('description'),
+      pricePerDay: data.get('price'),
+      image: imagePreview,
+      file: fileUrls,
+      status: NOTRENTED.value
+    }
+    console.log('Crear maquina', dataToSend)
+    const res = await createMachine(dataToSend)
+    // if (res.response.status === 400) {
+    //   toast.error('Error al crear la maquina')
+    //   setIsLoading(false)
+    //   return
+    // }
+    setData([...data, res.data])
+    toast.success(`Maquina ${res.data.make} ${res.data.model} creada correctamente`)
+    setIsLoading(false)
+    handleToggleDrawer(drawerTitle)
+    console.log(res.data)
   }
   const columns = useMemo(
     () => [
@@ -117,10 +150,10 @@ export const Maquinas = () => {
   )
 
   return (
-    <Layout>
+    <Layout isLoading={isLoading}>
       <Header pageName='Maquinas' buttonText='Agregar Maquina' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Maquina')} />
       <Tabla columns={columns} data={data} defaultFilter='marca' />
-      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}><MachineDrawer submitText={drawerTitle} /></MainDrawer>
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}><MachineDrawer submitText={drawerTitle} createMachine={(e) => handleCreateMachine(e)} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} /></MainDrawer>
     </Layout>
 
   )

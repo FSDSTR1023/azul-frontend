@@ -1,15 +1,16 @@
 import {
   useReactTable,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   flexRender
 } from '@tanstack/react-table'
 import { SortDownIcon, SortIcon, SortUpIcon } from './Icons'
 import { Dropdown } from './Dropdown'
 import { useState } from 'react'
 import { Checkbox } from './Checkbox'
+import { Button } from './Button/Button'
 export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
   const [columnFilters, setColumnFilters] = useState([])
   const [sorting, setSorting] = useState([])
@@ -21,15 +22,17 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
     state: {
       sorting,
       columnFilters,
-      columnVisibility
+      columnVisibility,
+      pageSize: 10,
+      pageIndex: 0
     },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel()
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel()
   })
   function handleColumnVisibilityChange (e) {
     const { value, checked } = e.target
@@ -37,7 +40,7 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
   }
   return (
     <>
-      <div className='flex mb-4 justify-between overflow-x-auto'>
+      <div className='flex mb-4 justify-between'>
         <div className='flex'>
           <Dropdown dynamicText={columnToFilter} buttonText='Selecciona columna a Buscar'>
             {tableRef
@@ -75,9 +78,9 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
             })}
         </Dropdown>
       </div>
-      <div className='relative overflow-visible shadow-md sm:rounded-lg'>
+      <div className='relative overflow-visible shadow-md sm:rounded-lg '>
         <table
-          className='w-full text-sm text-left rtl:text-right text-gray-500'
+          className='w-full text-sm text-left rtl:text-right text-gray-500 overflow-x-auto'
         >
           <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
             {tableRef.getHeaderGroups().map((headerGroup) => (
@@ -124,6 +127,29 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
             })}
           </tbody>
         </table>
+      </div>
+      <div className='mt-4 flex justify-center items-center gap-4'>
+        <Button variant={!tableRef.getCanPreviousPage() ? 'disabled' : 'outline'} onClick={() => tableRef.previousPage()} disabled={!tableRef.getCanPreviousPage()}>
+          Previous
+        </Button>
+        <span>
+          Page{' '}
+          <strong>
+            {tableRef.getState().pagination.pageIndex + 1} of {tableRef.getPageCount()}
+          </strong>{' '}
+        </span>
+        <Button variant={!tableRef.getCanNextPage() ? 'disabled' : 'outline'} onClick={() => tableRef.nextPage()} disabled={!tableRef.getCanNextPage()}>
+          Next
+        </Button>
+        <select className='p-2' value={tableRef.getState().pagination.pageSize} onChange={(e) => { tableRef.setPageSize(Number(e.target.value)) }}>
+          {
+            [10, 20, 30, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Mostrar {pageSize}
+              </option>
+            ))
+          }
+        </select>
       </div>
     </>
   )
