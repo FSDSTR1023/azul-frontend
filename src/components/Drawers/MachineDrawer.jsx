@@ -19,7 +19,7 @@ export const MachineDrawer = ({ submitText, createMachine, imagePreview, setImag
       <form onSubmit={(e) => createMachine(e)} className='flex flex-col gap-4'>
         <Input
           label='Marca'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='mark'
@@ -27,7 +27,7 @@ export const MachineDrawer = ({ submitText, createMachine, imagePreview, setImag
         />
         <Input
           label='Modelo'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='model'
@@ -54,13 +54,13 @@ export const MachineDrawer = ({ submitText, createMachine, imagePreview, setImag
         <Textarea label='Descrpción' name='description' placeholder='Es una marca muy reconocida...' />
         <Input
           label='Precio x Día'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='price'
           register={register('price', { required: 'La marca es requerida' })}
         />
-        <DropzoneImage label='Imagenes' imagePreview={imagePreview} setImagePreview={setImagePreview} />
+        <DropzoneImage label='Imágenes' imagePreview={imagePreview} setImagePreview={setImagePreview} />
         <DropzoneFiles label='Archivos' fileUrls={fileUrls} setFileUrls={setFileUrls} />
         <Button type='submit'>{submitText}</Button>
       </form>

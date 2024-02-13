@@ -19,6 +19,7 @@ export const Maquinas = () => {
   const [imagePreview, setImagePreview] = useState([])
   const [fileUrls, setFileUrls] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     const getMachines = async () => {
       const result = await getAllMachines()
@@ -153,7 +154,9 @@ export const Maquinas = () => {
     <Layout isLoading={isLoading}>
       <Header pageName='Maquinas' buttonText='Agregar Maquina' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Maquina')} />
       <Tabla columns={columns} data={data} defaultFilter='marca' />
-      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}><MachineDrawer submitText={drawerTitle} createMachine={(e) => handleCreateMachine(e)} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} /></MainDrawer>
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
+        <MachineDrawer submitText={drawerTitle} createMachine={(e) => handleCreateMachine(e)} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} />
+      </MainDrawer>
     </Layout>
 
   )
