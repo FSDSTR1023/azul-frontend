@@ -7,10 +7,7 @@ import { ALQUILERES, DASBOARD, INCIDENCIAS, MAQUINAS, USUARIOS } from '../schema
 import { Button } from './Button/Button'
 
 export const AsideNav = ({ className }) => {
-  const { user, signout } = useAuth()
-  const logout = () => {
-    signout()
-  }
+  const { user, role, signout } = useAuth()
   return (
     <aside className={`${className} bg-[#FCFCFC] flex gap-4 flex-col h-screen shadow-xl`}>
       <nav className='flex flex-1 flex-col'>
@@ -53,14 +50,14 @@ export const AsideNav = ({ className }) => {
       <div className='flex gap-4 items-center border-t-2 p-5'>
         <img
           className='rounded-full h-[3.25rem] aspect-square'
-          src='https://i.pravatar.cc/300'
+          src={user.image ? user.image : 'https://res.cloudinary.com/diskr186m/image/upload/v1707860933/not_image_user_xtda0m.jpg'}
           alt={`Avatar de ${user.name}`}
         />
         <div className='flex-1'>
-          <p>{user.name}</p>
-          <p>{user.role}</p>
+          <p>{user.name} {user.lastName}</p>
+          <p>{role}</p>
         </div>
-        <Button className='p-2' variant='ghost' onClick={logout}>
+        <Button className='p-2' variant='ghost' onClick={signout}>
           <LogoutIcon />
         </Button>
       </div>

@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [role, setRole] = useState(null)
   useEffect(() => {
     const checkLogin = async () => {
       const token = localStorage.getItem('token')
@@ -35,11 +36,13 @@ export const AuthProvider = ({ children }) => {
           return
         }
         setUser(res.data)
+        setRole(res.data.role)
         setIsAuthenticated(true)
         setIsLoading(false)
       } catch (error) {
         console.log(error)
         setUser(null)
+        setRole(null)
         setIsAuthenticated(false)
         setIsLoading(false)
       }
@@ -64,7 +67,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ signin, user, isAuthenticated, isLoading, signout }}>
+    <AuthContext.Provider value={{ signin, user, isAuthenticated, isLoading, signout, role }}>
       {children}
     </AuthContext.Provider>
   )
