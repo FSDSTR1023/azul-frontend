@@ -1,6 +1,6 @@
 import { Label } from './Label'
 
-export const Input = ({ label, placeholder, type, name, register }) => {
+export const Input = ({ label, placeholder, type, name, register, ...others }) => {
   // console.log(errors)
   // if (errors !== undefined) {
   //     console.log(errors[type])
@@ -13,7 +13,8 @@ export const Input = ({ label, placeholder, type, name, register }) => {
         name={name}
         type={type}
         placeholder={placeholder}
-                // ref={ref}
+        {...others}
+        // ref={ref}
         {...register}
       />
       {/* {errors && errors[type].message && <span className="text-red-500">{errors[type].message}</span>} */}

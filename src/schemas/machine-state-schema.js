@@ -17,3 +17,19 @@ export const NOTRENTED = {
 export const machineCategories = ['Excavadora', 'Retroexcavadora', 'Cargadora', 'Tractor', 'Camión', 'Grúa', 'Montacargas', 'Taladro', 'Martillo', 'Otro']
 
 export const machineStateType = [RENTED, REPAIRING, NOTRENTED]
+
+export const machineStateValue = [
+  {
+    value: RENTED.value,
+    text: RENTED.text
+  },
+  {
+    value: REPAIRING.value,
+    text: REPAIRING.text
+  },
+  {
+    value: NOTRENTED.value,
+    text: NOTRENTED.text
+  }
+
+]
