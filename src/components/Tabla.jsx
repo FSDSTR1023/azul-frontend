@@ -78,19 +78,19 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
             })}
         </Dropdown>
       </div>
-      <div className='relative overflow-visible shadow-md sm:rounded-lg '>
+      <div className='relative overflow-x-auto shadow-md sm:rounded-lg w-full'>
         <table
-          className='w-full text-sm text-left rtl:text-right text-gray-500 overflow-x-auto'
+          className='w-full text-sm text-left rtl:text-right text-gray-500'
         >
           <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
             {tableRef.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th className='px-6 py-3' key={header.id} onClick={() => header.column.getToggleSortingHandler()}>
+                  <th className='px-6 py-3' key={header.id} onClick={() => header.column.toggleSorting()}>
                     {header.isPlaceholder
                       ? null
                       : (
-                        <div className={header.column.getCanSort() ? 'flex gap-3 items-center cursor-pointer' : 'flex gap-3 items-center'}>
+                        <div className={header.column.getCanSort() ? 'flex gap-3 items-center cursor-pointer whitespace-nowrap' : 'flex gap-3 items-center whitespace-nowrap'}>
                           {
                             header.column.columnDef.header
                         }

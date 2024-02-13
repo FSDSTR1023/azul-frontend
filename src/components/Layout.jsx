@@ -9,7 +9,7 @@ export const Layout = ({ children, isLoading }) => {
         isLoading && <Loader />
       }
       <AsideNav className='[grid-area:aside]' />
-      <main className='[grid-area:main] p-5'>{children}</main>
+      <main className='[grid-area:main] p-5 overflow-auto'>{children}</main>
     </div>
   )
 }
