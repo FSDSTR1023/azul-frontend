@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { DashboardIcon, IssueIcon, LogoutIcon, MachineIcon, RentIcon, UsersIcon } from './Icons'
 import { CustomNavLink } from './CustomLink'
 import { Logo } from './Logo'
-import { ALQUILERES, DASBOARD, INCIDENCIAS, MAQUINAS, USUARIOS } from '../schemas/Navigaton-schema'
+import { ALQUILERES, DASBOARD, INCIDENCIAS, MAQUINAS, USUARIOS } from '../schemas/navigaton-schema'
 import { Button } from './Button/Button'
 
 export const AsideNav = ({ className }) => {
