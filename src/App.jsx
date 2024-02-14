@@ -7,7 +7,7 @@ import { Maquinas } from './pages/Maquinas'
 import { LoginPage } from './pages/LoginPage'
 import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoutes } from './components/ProtectedRoutes'
-import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, MAQUINAS, NOTFOUND, USUARIOS } from './schemas/Navigaton-schema'
+import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, MAQUINAS, NOTFOUND, USUARIOS } from './schemas/navigaton-schema'
 import { NotFound } from './pages/NotFound'
 import { Toaster } from 'sonner'
 
