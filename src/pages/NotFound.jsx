@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { DASBOARD } from '../schemas/Navigaton-schema'
+import { DASBOARD } from '../schemas/navigaton-schema'
 
 export const NotFound = () => {
   return (
