@@ -16,14 +16,22 @@ export const Users = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [drawerTitle, setDrawerTitle] = useState('')
   const [imagePreview, setImagePreview] = useState([])
+  const [columns, setColumns] = useState([])
 
   useEffect(() => {
     const getUsers = async () => {
       const result = await getAllUsers()
       setData(result.data)
+      console.log(result.data)
     }
     getUsers()
   }, [])
+  const resetDrawerInfo = () => {
+    // setDrawerInfo([])
+    setImagePreview([])
+    // setFileUrls([])
+    // setMode('')
+  }
 
   function handleCopyEmail (row) {
     const { email } = row.original
@@ -45,27 +53,24 @@ export const Users = () => {
   const handleCreateUser = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    const data = new FormData(e.target)
+    const formData = new FormData(e.target)
     const dataToSend = {
-      name: data.get('name'),
-      lastName: data.get('lastname'),
-      email: data.get('email'),
-      password: data.get('password'),
-      role: data.get('role'),
-      image: imagePreview
+      name: formData.get('name'),
+      lastName: formData.get('lastname'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      role: formData.get('role'),
+      image: imagePreview ? imagePreview[0] : ''
     }
-    console.log('Creando usuario', dataToSend)
     const res = await createUser(dataToSend)
     setData([...data, res.data])
-    toast.success(`Usuario ${res.data.name} ${res.data.lastname} creado exitosamente.`)
+    toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
     setIsLoading(false)
     handleToggleDrawer()
-    console.log(res.data)
   }
 
-  const columns = useMemo(
-    () => [
-
+  useMemo(() => {
+    const newColumns = [
       {
         header: 'Nombre',
         id: 'nombre',
@@ -108,16 +113,16 @@ export const Users = () => {
           )
         }
       }
-
-    ],
-    []
-  )
+    ]
+    console.log('newColumns', newColumns)
+    setColumns(newColumns)
+  }, [data])
 
   return (
     <Layout isLoading={isLoading}>
       <Header pageName='Users' buttonText='Agregar Usuario' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Usuario')} />
       <Tabla columns={columns} data={data} defaultFilter='nombre' />
-      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
+      <MainDrawer isOpen={isDrawerOpen} resetDrawerInfo={resetDrawerInfo} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
         <UserDrawer submitText={drawerTitle} createUser={(e) => handleCreateUser(e)} setImagePreview={setImagePreview} imagePreview={imagePreview} />
       </MainDrawer>
     </Layout>
