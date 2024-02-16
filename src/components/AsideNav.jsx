@@ -15,16 +15,13 @@ export const AsideNav = ({ className }) => {
           <Logo />
         </Link>
         <ul className='flex gap-2 flex-col p-5'>
-          {
-            role === 'admin' && (
-              <li>
-                <CustomNavLink to={DASBOARD.navigation}>
-                  <DashboardIcon />
-                  {DASBOARD.name}
-                </CustomNavLink>
-              </li>
-            )
-          }
+
+          <li>
+            <CustomNavLink to={DASBOARD.navigation}>
+              <DashboardIcon />
+              {DASBOARD.name}
+            </CustomNavLink>
+          </li>
 
           <li>
             <CustomNavLink to={ALQUILERES.navigation}>
@@ -38,16 +35,14 @@ export const AsideNav = ({ className }) => {
               {INCIDENCIAS.name}
             </CustomNavLink>
           </li>
-          {
-            role === 'admin' && (
-              <li>
-                <CustomNavLink to={USUARIOS.navigation}>
-                  <UsersIcon />
-                  {USUARIOS.name}
-                </CustomNavLink>
-              </li>
-            )
-          }
+
+          <li>
+            <CustomNavLink to={USUARIOS.navigation}>
+              <UsersIcon />
+              {USUARIOS.name}
+            </CustomNavLink>
+          </li>
+
           <li>
             <CustomNavLink to={MAQUINAS.navigation}>
               <MachineIcon />
