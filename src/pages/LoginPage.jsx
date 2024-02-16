@@ -10,8 +10,11 @@ export const LoginPage = () => {
     register,
     formState: { errors }
   } = useForm()
-  const { signin, isAuthenticated } = useAuth()
-  if (isAuthenticated) return <Navigate to='/dashboard' replace />
+  const { signin, role, isAuthenticated } = useAuth()
+  if (isAuthenticated) {
+    if (role === 'admin') return <Navigate to='/dashboard' replace />
+    return <Navigate to='/alquileres' replace />
+  }
   const onSubmit = handleSubmit(async (data) => {
     console.log(data)
     signin(data)
