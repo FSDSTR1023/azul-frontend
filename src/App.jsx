@@ -10,6 +10,7 @@ import { ProtectedRoutes } from './components/ProtectedRoutes'
 import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, MAQUINAS, NOTFOUND, USUARIOS } from './schemas/navigaton-schema'
 import { NotFound } from './pages/NotFound'
 import { Toaster } from 'sonner'
+import { ConfirmPage } from './pages/ConfirmPage'
 
 function App () {
   return (
@@ -21,6 +22,7 @@ function App () {
           <Route path={LOGIN.navigation} element={<LoginPage />} />
           <Route path={NOTFOUND.navigation} element={<NotFound />} />
           <Route path='*' element={<Navigate to={NOTFOUND.navigation} />} />
+          <Route path='/confirm-page' element={<ConfirmPage />} />
           <Route element={<ProtectedRoutes />}>
             <Route path={DASBOARD.navigation} element={<Dashboard />} />
             <Route path={USUARIOS.navigation} element={<Users />} />
