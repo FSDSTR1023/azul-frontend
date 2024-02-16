@@ -1,37 +1,49 @@
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '../Button/Button'
 import { Select } from '../Forms/Select'
-// import { Textarea } from '../Forms/Textarea'
 import { Input } from '../Forms/Input'
+import { GeneratePassword } from 'js-generate-password'
+import { useState } from 'react'
 
-export const UserDrawer = ({ toggleDrawer, mode }) => {
+export const UserDrawer = ({ toggleDrawer, submitText, createUser }) => {
+  const [pw, setPw] = useState('')
   const {
-    handleSubmit,
     register,
     formState: { errors }
   } = useForm()
-  const onSubmit = handleSubmit(async (data) => {
-    console.log(data)
-  })
+
+  const handleInputChange = (event) => {
+    setPw(event.target.value)
+    console.log('the new pw is', event.target.value)
+  }
+
+  const handleGeneratePassword = () => {
+    const password = GeneratePassword({
+      length: 10,
+      symbols: true
+    })
+    console.log('pwd', password)
+    setPw(password)
+  }
+
   return (
     <>
-      <form onSubmit={onSubmit} className='flex flex-col gap-4'>
+      <form onSubmit={(e) => createUser(e)} className='flex flex-col gap-4'>
         <Input
           label='Nombre'
           placeholder='John'
           type='text'
           errors={errors}
           name='name'
-          register={register('mark', { required: 'El nombre es requerido' })}
+          register={register('name', { required: 'El nombre es requerido' })}
         />
         <Input
           label='Apellido'
           placeholder='Doe'
           type='text'
           errors={errors}
-          name='lastName'
-          register={register('mark', { required: 'El apellido es requerido' })}
+          name='lastname'
+          register={register('lastname', { required: 'El apellido es requerido' })}
         />
         <Input
           label='Correo electrónico'
@@ -39,7 +51,7 @@ export const UserDrawer = ({ toggleDrawer, mode }) => {
           type='email'
           errors={errors}
           name='email'
-          register={register('mark', { required: 'El correo electrónico es requerido' })}
+          register={register('email', { required: 'El correo electrónico es requerido' })}
         />
         <Input
           label='Contraseña'
@@ -47,9 +59,11 @@ export const UserDrawer = ({ toggleDrawer, mode }) => {
           type='password'
           errors={errors}
           name='password'
-          register={register('mark', { required: 'La contraseña es requerida' })}
+          register={register('password', { required: 'La contraseña es requerida' })}
+          onChange={handleInputChange}
+          value={pw}
         />
-        <p>Generar contraseña</p>
+        <Button onClick={handleGeneratePassword}>Generate Password</Button>
         <Select
           label='Rol'
           placeholder='Seleccionar rol de usuario'
@@ -59,10 +73,8 @@ export const UserDrawer = ({ toggleDrawer, mode }) => {
           options={['Cliente', 'Admin', 'Atención al Cliente']}
           register={register('role', { required: 'El rol de usuario es requerido' })}
         />
-        {/* <Upload label='Imagenes' />
-        <Upload label='Documentación' /> */}
         <Button type='submit'>
-          {mode === 'create' ? 'Crear Usuario' : 'Editar Usuario'}
+          {submitText}
         </Button>
       </form>
     </>

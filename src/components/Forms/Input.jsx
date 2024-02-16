@@ -17,7 +17,7 @@ export const Input = ({ label, placeholder, type, name, register, ...others }) =
         // ref={ref}
         {...register}
       />
-      {/* {errors && errors[type].message && <span className="text-red-500">{errors[type].message}</span>} */}
+      {/* {errors && errors[name] && <span className='text-red-500'>{errors[name].message}</span>} */}
     </div>
   )
 }

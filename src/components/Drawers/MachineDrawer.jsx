@@ -21,7 +21,7 @@ export const MachineDrawer = ({ submitText, handleFormSubmit, imagePreview, setI
       <form onSubmit={(e) => handleFormSubmit(e)} className='flex flex-col gap-4'>
         <Input
           label='Marca'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='make'
@@ -30,7 +30,7 @@ export const MachineDrawer = ({ submitText, handleFormSubmit, imagePreview, setI
         />
         <Input
           label='Modelo'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='model'
@@ -58,7 +58,7 @@ export const MachineDrawer = ({ submitText, handleFormSubmit, imagePreview, setI
         <Textarea label='Descrpción' name='description' placeholder='Es una marca muy reconocida...' value={description} />
         <Input
           label='Precio x Día'
-          placeholder='John Dere'
+          placeholder='John Deere'
           type='text'
           errors={errors}
           name='price'

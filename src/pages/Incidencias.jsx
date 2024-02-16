@@ -5,7 +5,7 @@ import { Tabla } from '../components/Tabla'
 import { Layout } from '../components/Layout'
 import { issueType } from '../schemas/issues-state-schema'
 import { Pill } from '../components/Pill'
-import { getAllIncidents } from '../api/incidencias'
+import { getAllIncidents, getIncident } from '../api/incidencias'
 import { Header } from '../components/Header'
 import { Dropdown } from '../components/Dropdown'
 import { copyToClipboard } from '../helpers/copyClipboards'
@@ -16,6 +16,14 @@ export const Incidencias = () => {
   const [data, setData] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [selectDetails, setSelectDetails] = useState({})
+
+  useEffect(() => {
+    const getIncidents = async () => {
+      const result = await getAllIncidents()
+      setData(result.data)
+    }
+    getIncidents()
+  }, [])
 
   function handleCopyId (row) {
     const { customId } = row.original
@@ -35,22 +43,18 @@ export const Incidencias = () => {
     const fullName = `${machine.make} ${machine.model}`
     copyToClipboard(fullName)
   }
-  const handleToggleDrawer = (row) => {
-    if (row && row.original) {
-      setSelectDetails({
-        asunto: row.original.incident,
-        tipo: row.original.type
-      })
-    }
+  const handleToggleDrawer = async (row) => {
     setIsDrawerOpen(!isDrawerOpen)
-  }
-  useEffect(() => {
-    const getIncidents = async () => {
-      const result = await getAllIncidents()
-      setData(result.data)
+    if (row && row.original) {
+      try {
+        const result = await getIncident(row.original._id)
+        const incidentDetails = result.data
+        setSelectDetails(incidentDetails)
+      } catch (error) {
+        console.error('error fetching incident details', error)
+      }
     }
-    getIncidents()
-  }, [])
+  }
 
   const columns = useMemo(
     () => [
@@ -168,7 +172,9 @@ export const Incidencias = () => {
     <Layout>
       <Header pageName='Incidencias' />
       <Tabla columns={columns} data={data} defaultFilter='asunto' />
-      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}><IncidentDrawerAT incidentDetails={selectDetails} /></MainDrawer>
+      <MainDrawer isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}>
+        <IncidentDrawerAT incidentDetails={selectDetails} />
+      </MainDrawer>
     </Layout>
   )
 }

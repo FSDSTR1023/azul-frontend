@@ -11,7 +11,6 @@ import { copyToClipboard } from '../helpers/copyClipboards'
 import { MachineDrawer } from '../components/Drawers/MachineDrawer'
 import { MainDrawer } from '../components/Drawers/MainDrawer'
 import { toast } from 'sonner'
-import { set } from 'date-fns'
 
 export const Maquinas = () => {
   const [data, setData] = useState([])

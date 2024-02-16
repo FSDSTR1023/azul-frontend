@@ -28,7 +28,7 @@ export const DropzoneImage = ({ label, imagePreview, setImagePreview }) => {
             <Label text={label} />
             <input {...getInputProps()} />
             <div className='border border-dashed border-slate-300 w-full py-2 px-2 rounded text-slate-400'>
-              <p>Arrastra aqui tus imagemnes o haz click</p>
+              <p>Arrastra aqui tus imágenes o haz click</p>
             </div>
           </div>
         )}
