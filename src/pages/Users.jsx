@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Tabla } from '../components/Tabla'
 import { Layout } from '../components/Layout'
-import { createUser, getAllUsers } from '../api/usuarios'
+import { createUser, getAllUsers, getUser } from '../api/usuarios'
 import { Header } from '../components/Header'
 import { Dropdown } from '../components/Dropdown'
 import { copyToClipboard } from '../helpers/copyClipboards'
@@ -17,6 +17,10 @@ export const Users = () => {
   const [drawerTitle, setDrawerTitle] = useState('')
   const [imagePreview, setImagePreview] = useState([])
   const [columns, setColumns] = useState([])
+  const [drawerInfo, setDrawerInfo] = useState([])
+  const [idToEdit, setIdToEdit] = useState('')
+  const [mode, setMode] = useState('')
+  const formRef = useRef(null)
 
   useEffect(() => {
     const getUsers = async () => {
@@ -26,11 +30,14 @@ export const Users = () => {
     }
     getUsers()
   }, [])
+
+  // TODO: Create a function to handle the update of a user
+  // TODO: SetMode whemn editing
   const resetDrawerInfo = () => {
-    // setDrawerInfo([])
+    setDrawerInfo([])
     setImagePreview([])
     // setFileUrls([])
-    // setMode('')
+    setMode('')
   }
 
   function handleCopyEmail (row) {
@@ -44,16 +51,15 @@ export const Users = () => {
   const handleToggleDrawer = (text) => {
     console.log(text)
     if (text !== undefined) {
-      setDrawerTitle('Agregar Usuario')
       setDrawerTitle(text)
       console.log(drawerTitle)
     }
     setIsDrawerOpen(!isDrawerOpen)
   }
-  const handleCreateUser = async (e) => {
-    e.preventDefault()
+  const handleCreateUser = async () => {
     setIsLoading(true)
-    const formData = new FormData(e.target)
+    formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
+    const formData = new FormData(formRef.current)
     const dataToSend = {
       name: formData.get('name'),
       lastName: formData.get('lastname'),
@@ -62,11 +68,22 @@ export const Users = () => {
       role: formData.get('role'),
       image: imagePreview ? imagePreview[0] : ''
     }
+    console.log(dataToSend)
     const res = await createUser(dataToSend)
     setData([...data, res.data])
     toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
     setIsLoading(false)
     handleToggleDrawer()
+  }
+  const handleEdit = async (idToGet) => {
+    console.log(idToGet)
+    setIsLoading(true)
+    setIdToEdit(idToGet)
+    const res = await getUser(idToGet)
+    handleToggleDrawer('Editar Maquina')
+    console.log(res.data)
+    setDrawerInfo(res.data)
+    setIsLoading(false)
   }
 
   useMemo(() => {
@@ -106,7 +123,7 @@ export const Users = () => {
               <li onClick={() => handleCopyEmail(row)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Copiar Email
               </li>
-              <li onClick={() => handleToggleDrawer('Editar Usuario')} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
+              <li onClick={() => handleEdit(row.original.id)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
                 Editar
               </li>
             </Dropdown>
@@ -122,8 +139,8 @@ export const Users = () => {
     <Layout isLoading={isLoading}>
       <Header pageName='Users' buttonText='Agregar Usuario' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Usuario')} />
       <Tabla columns={columns} data={data} defaultFilter='nombre' />
-      <MainDrawer isOpen={isDrawerOpen} resetDrawerInfo={resetDrawerInfo} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
-        <UserDrawer submitText={drawerTitle} createUser={(e) => handleCreateUser(e)} setImagePreview={setImagePreview} imagePreview={imagePreview} />
+      <MainDrawer isOpen={isDrawerOpen} resetDrawerInfo={resetDrawerInfo} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle} submitForm={handleCreateUser}>
+        <UserDrawer formRef={formRef} drawerInfo={drawerInfo} submitText={drawerTitle} submitForm={handleCreateUser} setImagePreview={setImagePreview} imagePreview={imagePreview} />
       </MainDrawer>
     </Layout>
   )
