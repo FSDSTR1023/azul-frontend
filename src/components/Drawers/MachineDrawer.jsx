@@ -77,7 +77,6 @@ export const MachineDrawer = ({ submitText, handleFormSubmit, imagePreview, setI
           />}
         <DropzoneImage label='Imagenes' imagePreview={imagePreview} setImagePreview={setImagePreview} />
         <DropzoneFiles label='Archivos' fileUrls={fileUrls} setFileUrls={setFileUrls} />
-        <Button type='submit'>{submitText}</Button>
       </form>
     </>
   )
