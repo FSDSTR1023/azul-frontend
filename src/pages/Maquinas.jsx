@@ -200,7 +200,7 @@ export const Maquinas = () => {
     <Layout isLoading={isLoading}>
       <Header pageName='Maquinas' buttonText='Agregar Maquina' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Maquina')} />
       <Tabla columns={columns} data={data} defaultFilter='marca' />
-      <MainDrawer resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
+      <MainDrawer submitForm={(e) => handleFormSubmit(e)} resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
         <MachineDrawer submitText={drawerTitle} mode={mode} drawerInfo={drawerInfo} handleFormSubmit={(e) => handleFormSubmit(e)} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} />
       </MainDrawer>
     </Layout>
