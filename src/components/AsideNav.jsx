@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { DashboardIcon, IssueIcon, LogoutIcon, MachineIcon, RentIcon, UsersIcon } from './Icons'
+import { DashboardIcon, EditIcon, IssueIcon, LogoutIcon, MachineIcon, RentIcon, UsersIcon } from './Icons'
 import { CustomNavLink } from './CustomLink'
 import { Logo } from './Logo'
 import { ALQUILERES, DASBOARD, INCIDENCIAS, MAQUINAS, USUARIOS } from '../schemas/navigaton-schema'
 import { Button } from './Button/Button'
 
-export const AsideNav = ({ className }) => {
+export const AsideNav = ({ className, handleEditUser }) => {
   const { user, role, signout } = useAuth()
+
   return (
     <aside className={`${className} bg-[#FCFCFC] flex gap-4 flex-col h-screen shadow-xl`}>
       <nav className='flex flex-1 flex-col'>
@@ -58,12 +59,17 @@ export const AsideNav = ({ className }) => {
           alt={`Avatar de ${user.name}`}
         />
         <div className='flex-1'>
-          <p>{user.name} {user.lastName}</p>
-          <p>{role}</p>
+          <p className='font-bold'>{user.name} {user.lastName}</p>
+          <p className='text-sm text-slate-600/50'>{role}</p>
         </div>
-        <Button className='p-2' variant='ghost' onClick={signout}>
-          <LogoutIcon />
-        </Button>
+        <div className='flex gap-2'>
+          <Button className='p-2' variant='ghost' onClick={handleEditUser}>
+            <EditIcon />
+          </Button>
+          <Button className='p-2' variant='ghost' onClick={signout}>
+            <LogoutIcon />
+          </Button>
+        </div>
       </div>
     </aside>
   )
