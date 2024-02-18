@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
 import { Button } from '../Button/Button'
-import { Select } from '../Forms/Select'
+import { GeneratePassword } from 'js-generate-password/dist'
 import { Input } from '../Forms/Input'
-import { GeneratePassword } from 'js-generate-password'
-import { useState } from 'react'
-import { userRoles } from '../../schemas/user-roles-schema'
 
-export const UserDrawer = ({ formSubmit, formRef, drawerInfo }) => {
-  const { name, lastName, email, role } = drawerInfo
+export const EditUserDrawer = ({ formRef, formSubmit, drawerInfo }) => {
+  const { name, lastName, email } = drawerInfo
+  console.log(drawerInfo)
   const [pw, setPw] = useState('')
+  const [editPassword, setEditPassword] = useState(false)
 
   const {
     register,
@@ -29,7 +29,6 @@ export const UserDrawer = ({ formSubmit, formRef, drawerInfo }) => {
     console.log('pwd', password)
     setPw(password)
   }
-
   return (
     <>
       <form ref={formRef} onSubmit={formSubmit} className='flex flex-col gap-4'>
@@ -60,6 +59,7 @@ export const UserDrawer = ({ formSubmit, formRef, drawerInfo }) => {
           defaultValue={email}
           register={register('email', { required: 'El correo electrónico es requerido' })}
         />
+
         <Input
           label='Contraseña'
           placeholder='*****'
@@ -68,19 +68,15 @@ export const UserDrawer = ({ formSubmit, formRef, drawerInfo }) => {
           value={pw}
           onChange={handleInputChange}
           errors={errors}
+          disabled={!editPassword}
           register={register('password', { required: 'La contraseña es requerida' })}
         />
-        <Button onClick={handleGeneratePassword}>Generate Password</Button>
-        <Select
-          label='Rol'
-          placeholder='Seleccionar rol de usuario'
-          type='text'
-          errors={errors}
-          name='role'
-          options={userRoles}
-          defaultSel={role}
-          register={register('role', { required: 'El rol de usuario es requerido' })}
-        />
+        {
+            !editPassword
+              ? <Button onClick={() => setEditPassword(true)}>Cambiar Contraseña</Button>
+              : <div className='flex gap-4'><Button onClick={() => handleGeneratePassword()}>Generar Contraseña</Button> <Button variant='ghost' onClick={() => setEditPassword(false)}>Cancelar</Button> </div>
+        }
+
       </form>
     </>
   )

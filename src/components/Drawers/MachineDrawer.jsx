@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form'
-import { Button } from '../Button/Button'
 import { Select } from '../Forms/Select'
 import { Textarea } from '../Forms/Textarea'
 import { Input } from '../Forms/Input'
@@ -8,7 +7,7 @@ import { DropzoneFiles } from '../Forms/DropzoneFiles'
 import { machineCategories, machineStateValue } from '../../schemas/machine-state-schema'
 import { years } from '../../helpers/yearsSelect'
 
-export const MachineDrawer = ({ submitText, handleFormSubmit, imagePreview, setImagePreview, fileUrls, setFileUrls, drawerInfo, mode }) => {
+export const MachineDrawer = ({ formRef, formSubmit, imagePreview, setImagePreview, fileUrls, setFileUrls, drawerInfo, mode }) => {
   const { make, model, year, category, description, pricePerDay, status } = drawerInfo
   console.log(drawerInfo)
   const {
@@ -18,7 +17,7 @@ export const MachineDrawer = ({ submitText, handleFormSubmit, imagePreview, setI
 
   return (
     <>
-      <form onSubmit={(e) => handleFormSubmit(e)} className='flex flex-col gap-4'>
+      <form ref={formRef} onSubmit={formSubmit} className='flex flex-col gap-4'>
         <Input
           label='Marca'
           placeholder='John Deere'

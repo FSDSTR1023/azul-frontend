@@ -1,18 +1,21 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import { Tabla } from '../components/Tabla'
 import { Layout } from '../components/Layout'
-import { createMachine, getAllMachines, getMachine, updateMachine } from '../api/maquinas'
-import { Pill } from '../components/Pill'
-import { NOTRENTED, machineStateType } from '../schemas/machine-state-schema'
+import { createMachine, deleteMachine, getAllMachines, getMachine, updateMachine } from '../api/maquinas'
+import { NOTRENTED } from '../schemas/machine-state-schema'
 import { Header } from '../components/Header'
-import { Dropdown } from '../components/Dropdown'
-import { copyToClipboard } from '../helpers/copyClipboards'
 import { MachineDrawer } from '../components/Drawers/MachineDrawer'
 import { MainDrawer } from '../components/Drawers/MainDrawer'
 import { toast } from 'sonner'
+import { MachinesTable } from '../components/Views/Maquinas/MachinesTable'
+import { EditUserDrawer } from '../components/Drawers/EditUserDrawer'
+import { Modal } from '../components/Modal'
+import { getProfileReq, updateProfileReq } from '../api/auth'
+import { useAuth } from '../context/AuthContext'
 
 export const Maquinas = () => {
+  const { setUser } = useAuth()
+  const [editUser, setEditUser] = useState(false)
   const [data, setData] = useState([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [drawerTitle, setDrawerTitle] = useState('')
@@ -22,19 +25,20 @@ export const Maquinas = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [mode, setMode] = useState('')
   const [idToEdit, setIdToEdit] = useState('')
-  const [columns, setColumns] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [userInfo, setUserInfo] = useState([{}])
+  const formRef = useRef(null)
 
   useEffect(() => {
     const getMachines = async () => {
       const result = await getAllMachines()
-      console.log(result)
       setData(result.data)
     }
     getMachines()
   }, [])
-  function handleCopy (text) {
-    copyToClipboard(text)
-  }
+  // function handleCopy (text) {
+  //   copyToClipboard(text)
+  // }
   const resetDrawerInfo = () => {
     setDrawerInfo([])
     setImagePreview([])
@@ -48,19 +52,18 @@ export const Maquinas = () => {
       setDrawerTitle(text)
     }
   }
-  const handleFormSubmit = (e) => {
-    e.preventDefault()
-    console.log(e.target)
+  const handleFormSubmit = () => {
     if (mode === 'edit') {
-      handleUpdateMachine(e.target)
+      handleUpdateMachine()
     } else {
-      handleCreateMachine(e.target)
+      handleCreateMachine()
     }
   }
-  const handleCreateMachine = async (formData) => {
+  const handleCreateMachine = async () => {
     // e.preventDefault()
     setIsLoading(true)
-    const form = new FormData(formData)
+    formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
+    const form = new FormData(formRef.current)
     const dataToSend = {
       make: form.get('make'),
       model: form.get('model'),
@@ -80,10 +83,12 @@ export const Maquinas = () => {
     handleToggleDrawer(drawerTitle)
     console.log(res.data)
   }
-  const handleUpdateMachine = async (formData) => {
+  const handleUpdateMachine = async () => {
     // e.preventDefault()
     setIsLoading(true)
-    const form = new FormData(formData)
+    console.log(formRef.current)
+    formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
+    const form = new FormData(formRef.current)
     console.log(form.get('status'))
     const dataToSend = {
       make: form.get('make'),
@@ -97,17 +102,22 @@ export const Maquinas = () => {
       status: form.get('status')
     }
     console.log('Editar maquina', dataToSend)
-    const res = await updateMachine(idToEdit, dataToSend)
-    const index = data.findIndex((machine) => machine._id === idToEdit)
-    console.log('index', index)
-    const newData = [...data]
-    newData[index] = res.data
-    console.log('index', newData)
-    setData(newData)
-    toast.success(`Maquina ${res.data.make} ${res.data.model} modificada correctamente`)
-    setIsLoading(false)
-    handleToggleDrawer(drawerTitle)
-    console.log(res.data)
+    try {
+      const res = await updateMachine(idToEdit, dataToSend)
+      const index = data.findIndex((machine) => machine._id === idToEdit)
+      console.log('index', index)
+      const newData = [...data]
+      newData[index] = res.data
+      console.log('index', newData)
+      setData(newData)
+      toast.success(`Maquina ${res.data.make} ${res.data.model} modificada correctamente`)
+      setIsLoading(false)
+      handleToggleDrawer(drawerTitle)
+      console.log(res.data)
+    } catch (error) {
+      setIsLoading(false)
+      toast.error('Ocurrio un error al actualizar la maquina')
+    }
   }
   const handleEdit = async (idToGet) => {
     setIsLoading(true)
@@ -121,88 +131,80 @@ export const Maquinas = () => {
     setImagePreview(res.data.image)
     setFileUrls(res.data.file)
   }
-  useMemo(() => {
-    const newColumns = [
-      {
-        header: 'ID',
-        id: 'id',
-        accessorKey: 'customId'
-      },
-      {
-        header: 'Marca y modelo',
-        id: 'marca',
-        accessorKey: 'make',
-        filterFn: (row, columnId, filterValue) => {
-          if (row.original === undefined) return false
-          const { make, model } = row.original
-          const fullName = `${make} ${model}`
-          const filterApplied = fullName.toLowerCase().includes(filterValue.toLowerCase())
-          return filterApplied
-        },
-        cell: ({ row }) => {
-          if (row.original === undefined) return ''
-          return `${row.original.make} ${row.original.model}`
-        }
-      },
-      {
-        header: 'Año',
-        id: 'año',
-        accessorKey: 'year'
-      },
-      {
-        header: 'Categoría',
-        id: 'categoria',
-        accessorKey: 'category'
-      },
-      {
-        header: 'Precio/Dia',
-        id: 'precio',
-        accessorKey: 'pricePerDay'
-      },
-      {
-        header: 'Estado',
-        id: 'estado',
-        accessorKey: 'status',
-        enableSorting: false,
-        cell: ({ row, getValue }) => {
-          if (getValue() === undefined) return ''
-          const status = machineStateType.find(s => s.value === getValue())
-          return (<Pill color={status.color}>{status.text}</Pill>)
-        }
-      },
-      {
-        id: 'actions',
-        cell: ({ row }) => {
-          return (
-            <Dropdown buttonText='Acciones' variant='ghost'>
-              <li onClick={() => handleCopy(row.original.customId)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
-                Copiar ID
-              </li>
-              <li onClick={() => handleCopy(row.original.make)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
-                Copiar Marca
-              </li>
-              <li onClick={() => handleCopy(row.original.category)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
-                Copiar Categoria
-              </li>
-              <li onClick={() => handleEdit(row.original._id)} className='px-4 py-2 cursor-pointer capitalize hover:bg-gray-100 border-b'>
-                Editar
-              </li>
-            </Dropdown>
-          )
-        }
-      }
-    ]
-    console.log('newColumns', newColumns)
-    setColumns(newColumns)
-  }, [data])
+
+  const handleShowModal = () => {
+    console.log('show modal')
+    setShowModal(true)
+  }
+  const handleDelete = async () => {
+    setIsLoading(true)
+    try {
+      const res = await deleteMachine(idToEdit)
+      const newData = data.filter((machine) => machine._id !== idToEdit)
+      setData(newData)
+      toast.success(`Maquina ${res.data.make} ${res.data.model} eliminada correctamente`)
+      setIsLoading(false)
+      handleToggleDrawer(drawerTitle)
+      setShowModal(false)
+    } catch (error) {
+      setIsLoading(false)
+      toast.error('Ocurrio un error al eliminar la maquina')
+    }
+  }
+  const handleEditUser = async () => {
+    console.log('Edit Cuenta')
+    const userData = await getProfileReq()
+    setUserInfo(userData.data)
+    setEditUser(true)
+  }
+  const handleUpdateProfile = async () => {
+    console.log('update profile')
+    const form = new FormData(formRef.current)
+    console.log('name', form.get('name'))
+    const dataToSend = {
+      name: form.get('name'),
+      lastName: form.get('lastname'),
+      email: form.get('email')
+    }
+    if (form.get('password') !== '' && form.get('password') === form.get('confirmPassword')) {
+      dataToSend.password = form.get('password')
+    }
+    try {
+      const res = await updateProfileReq(dataToSend)
+      toast.success('Usuario actualizado correctamente')
+      setEditUser(false)
+      console.log('datas', res.data.user)
+      setUser(res.data.user)
+      console.log(userInfo)
+    } catch (error) {
+      toast.error('Ocurrio un error al actualizar el usuario')
+      setIsLoading(false)
+    }
+
+    // const userData = await getProfileReq()
+  }
 
   return (
-    <Layout isLoading={isLoading}>
+    <Layout isLoading={isLoading} handleEditUser={handleEditUser}>
       <Header pageName='Maquinas' buttonText='Agregar Maquina' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Maquina')} />
-      <Tabla columns={columns} data={data} defaultFilter='marca' />
-      <MainDrawer submitForm={(e) => handleFormSubmit(e)} resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
-        <MachineDrawer submitText={drawerTitle} mode={mode} drawerInfo={drawerInfo} handleFormSubmit={(e) => handleFormSubmit(e)} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} />
+      <MachinesTable data={data} handleEdit={handleEdit} />
+      <MainDrawer mode={mode} submitForm={handleFormSubmit} handleDelete={handleShowModal} resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
+        <MachineDrawer formRef={formRef} mode={mode} drawerInfo={drawerInfo} handleFormSubmit={handleFormSubmit} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} />
       </MainDrawer>
+      {
+        showModal &&
+          <Modal variantActionBtn='danger' actionBtnText='Eliminar' actionBtnClick={handleDelete} closeBtnClick={() => setShowModal(false)}>
+            <h3 className='text-xl font-bold'>Eliminar Maquina</h3>
+            <p>¿Estas seguro que quieres eliminar esta maquina?</p>
+          </Modal>
+      }
+      {
+        editUser &&
+          <Modal actionBtnText='Guardar Cambios' actionBtnClick={handleUpdateProfile} closeBtnClick={() => setEditUser(false)}>
+            <h3 className='text-xl font-bold'>Editar Información</h3>
+            <EditUserDrawer formRef={formRef} formSubmit={handleUpdateProfile} drawerInfo={userInfo} />
+          </Modal>
+      }
     </Layout>
 
   )
