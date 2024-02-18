@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '../Button/Button'
 import { CloseIcon } from '../Icons'
 
-export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerInfo, submitForm, handleDelete, mode }) => {
+export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerInfo, submitForm, handleDelete, mode, showButton = true }) => {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     if (isOpen) {
@@ -10,6 +10,7 @@ export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerI
     } else {
       setTimeout(() => {
         setMounted(false)
+        if (!resetDrawerInfo) return
         resetDrawerInfo()
       }, 500)
     }
@@ -24,10 +25,11 @@ export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerI
         <div className='flex-1 overflow-auto'>
           {mounted && children}
         </div>
-        <div className='flex pt-4 gap-4'>
-          <Button className='w-full text-base font-medium' onClick={submitForm}>{title}</Button>
-          {mode === 'edit' && <Button variant='danger' className='w-full text-base font-medium' onClick={handleDelete}>Eliminar</Button>}
-        </div>
+        {showButton &&
+          <div className='flex pt-4 gap-4'>
+            <Button className='w-full text-base font-medium' onClick={submitForm}>{title}</Button>
+            {mode === 'edit' && <Button variant='danger' className='w-full text-base font-medium' onClick={handleDelete}>Eliminar</Button>}
+          </div>}
 
       </div>
       <div onClick={toggleDrawer} className='bg-black/20 absolute w-full h-screen pointer-events-none' />
