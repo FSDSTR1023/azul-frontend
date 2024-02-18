@@ -38,7 +38,7 @@ export const DropzoneFiles = ({ label, fileUrls, setFileUrls }) => {
             <p>Documentos seleccionadas</p>
             <div className='flex gap-4 border border-dashed border-slate-300 p-2'>
               {fileUrls.map((fileUrl, index) => (
-                <FileViewer key={index} url={fileUrl} />
+                <FileViewer key={index} fileUrls={fileUrls} setFileUrls={setFileUrls} url={fileUrl} />
               ))}
             </div>
 

@@ -5,7 +5,6 @@ import { ImageViewer } from './ImageViewer'
 // import { useState } from 'react'
 
 export const DropzoneImage = ({ label, imagePreview, setImagePreview }) => {
-  // const [imagePreview, setImagePreview] = useState([])
   const customDrop = (files) => {
     console.log(files)
     const formData = new FormData()
@@ -22,7 +21,7 @@ export const DropzoneImage = ({ label, imagePreview, setImagePreview }) => {
   }
   return (
     <>
-      <Dropzone accept='.jpg, .jpeg, .png' type='file' multiple onDrop={(acceptedFiles) => customDrop(acceptedFiles)}>
+      <Dropzone onDrop={(acceptedFiles) => customDrop(acceptedFiles)} accept='image/jpeg, image/png' multiple>
         {({ getRootProps, getInputProps }) => (
           <div className='' {...getRootProps()}>
             <Label text={label} />
@@ -40,7 +39,7 @@ export const DropzoneImage = ({ label, imagePreview, setImagePreview }) => {
             <p>Imagenes seleccionadas</p>
             <div className='flex gap-4 border border-dashed border-slate-300 p-2'>
               {imagePreview.map((image, index) => (
-                <ImageViewer key={index} image={image} />
+                <ImageViewer key={index} imagePreview={imagePreview} setImagePreview={setImagePreview} image={image} />
               ))}
             </div>
 
