@@ -59,7 +59,7 @@ export const AsideNav = ({ className, handleEditUser }) => {
           alt={`Avatar de ${user.name}`}
         />
         <div className='flex-1'>
-          <p className='font-bold'>{user.name} {user.lastName}</p>
+          <p className='font-bold max-w-[8ch] overflow-hidden text-ellipsis'>{user.name}</p>
           <p className='text-sm text-slate-600/50'>{role}</p>
         </div>
         <div className='flex gap-2'>
