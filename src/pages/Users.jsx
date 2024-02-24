@@ -11,6 +11,7 @@ import { getProfileReq, updateProfileReq } from '../api/auth'
 import { Modal } from '../components/Modal'
 import { EditUserDrawer } from '../components/Drawers/EditUserDrawer'
 import { useAuth } from '../context/AuthContext'
+import { CLIENT } from '../schemas/user-roles-schema'
 
 export const Users = () => {
   const { setUser } = useAuth()
@@ -42,14 +43,6 @@ export const Users = () => {
     setMode('')
   }
 
-  // function handleCopyEmail (row) {
-  //   const { email } = row.original
-  //   copyToClipboard(email)
-  // }
-  // function handleCopyName (row) {
-  //   const fullName = `${row.original.name} ${row.original.lastName}`
-  //   copyToClipboard(fullName)
-  // }
   const handleToggleDrawer = (text) => {
     console.log(text)
     if (text !== undefined) {
@@ -58,6 +51,7 @@ export const Users = () => {
     }
     setIsDrawerOpen(!isDrawerOpen)
   }
+
   const handleFormSubmit = () => {
     if (mode === 'edit') {
       console.log('edit')
@@ -66,6 +60,7 @@ export const Users = () => {
       handleCreateUser()
     }
   }
+
   const handleCreateUser = async () => {
     setIsLoading(true)
     formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
@@ -75,8 +70,7 @@ export const Users = () => {
       lastName: formData.get('lastname'),
       email: formData.get('email'),
       password: formData.get('password'),
-      role: formData.get('role'),
-      image: imagePreview ? imagePreview[0] : ''
+      role: formData.get('role') ? formData.get('role') : 'user'
     }
     console.log(dataToSend)
     const res = await createUser(dataToSend)
@@ -85,6 +79,7 @@ export const Users = () => {
     setIsLoading(false)
     handleToggleDrawer()
   }
+
   const handleEdit = async (idToGet) => {
     console.log(idToGet)
     setIsLoading(true)
@@ -105,13 +100,16 @@ export const Users = () => {
       name: formData.get('name'),
       lastName: formData.get('lastname'),
       email: formData.get('email'),
-      password: formData.get('password') ? formData.get('password') : drawerInfo.password,
-      role: formData.get('role')
+      role: formData.get('role') ? formData.get('role') : CLIENT
+    }
+    if (formData.get('password') !== '' && formData.get('password') === formData.get('confirmPassword') && formData.get('password') !== null && formData.get('password') !== undefined) {
+      dataToSend.password = formData.get('password')
     }
     console.log(dataToSend)
 
     try {
       const res = await updateUser(idToEdit, dataToSend)
+      console.log(res.data)
       const index = data.findIndex((user) => user.id === idToEdit)
       const newData = [...data]
       newData[index] = res.data
@@ -141,12 +139,14 @@ export const Users = () => {
     }
   }
 
-  const handleEditUser = async () => {
+  const handleEditProfile = async () => {
     console.log('Edit Cuenta')
     const userData = await getProfileReq()
+    console.log(userData.data)
     setUserInfo(userData.data)
     setEditUser(true)
   }
+
   const handleUpdateProfile = async () => {
     console.log('update profile')
     const form = new FormData(formRef.current)
@@ -156,7 +156,7 @@ export const Users = () => {
       lastName: form.get('lastname'),
       email: form.get('email')
     }
-    if (form.get('password') !== '' && form.get('password') === form.get('confirmPassword')) {
+    if (form.get('password') !== '' && form.get('password') === form.get('confirmPassword') && form.get('password') !== null && form.get('password') !== undefined) {
       dataToSend.password = form.get('password')
     }
     try {
@@ -175,7 +175,7 @@ export const Users = () => {
   }
 
   return (
-    <Layout isLoading={isLoading} handleEditUser={handleEditUser}>
+    <Layout isLoading={isLoading} handleEditUser={handleEditProfile}>
       <Header pageName='Users' buttonText='Agregar Usuario' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Usuario')} />
       <UsersTable data={data} handleEdit={handleEdit} />
       <MainDrawer mode={mode} isOpen={isDrawerOpen} handleDelete={() => setShowModal(true)} resetDrawerInfo={resetDrawerInfo} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle} submitForm={handleFormSubmit}>
