@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         setRole(null)
         setIsAuthenticated(false)
         setIsLoading(false)
-        if (error.response.status === 400) localStorage.removeItem('token')
+        if (error.response.status === 400 && localStorage.getItem('token')) localStorage.removeItem('token')
       }
     }
     checkLogin()
