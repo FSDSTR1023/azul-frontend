@@ -139,12 +139,13 @@ export const Maquinas = () => {
   const handleState = async () => {
     console.log('handleState')
     setIsLoading(true)
-    const res = await setMachineStateReq(idToEdit, { status: !drawerInfo.status })
+    console.log(drawerInfo.state, 'state')
+    const res = await setMachineStateReq(idToEdit, { state: !drawerInfo.state })
     const index = data.findIndex((machine) => machine._id === idToEdit)
     const newData = [...data]
     newData[index] = res.data
     setData(newData)
-    toast.success(`Maquina ${res.data.make} ${res.data.model} ${res.data.status ? 'habilitada' : 'deshabilitada'} correctamente`)
+    toast.success(`Maquina ${res.data.make} ${res.data.model} ${res.data.state ? 'habilitada' : 'deshabilitada'} correctamente`)
     setIsLoading(false)
     handleToggleDrawer(drawerTitle)
   }
@@ -201,7 +202,7 @@ export const Maquinas = () => {
     <Layout isLoading={isLoading} handleEditUser={handleEditUser}>
       <Header pageName='Maquinas' buttonText='Agregar Maquina' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Maquina')} />
       <MachinesTable data={data} handleEdit={handleEdit} />
-      <MainDrawer mode={mode} submitForm={handleFormSubmit} stateButton={drawerInfo.status} handleState={handleState} handleDelete={handleShowModal} resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
+      <MainDrawer mode={mode} submitForm={handleFormSubmit} stateButton={drawerInfo.state} handleState={handleState} handleDelete={handleShowModal} resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
         <MachineDrawer formRef={formRef} mode={mode} drawerInfo={drawerInfo} handleFormSubmit={handleFormSubmit} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} />
       </MainDrawer>
       {

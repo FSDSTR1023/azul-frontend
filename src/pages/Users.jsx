@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { Layout } from '../components/Layout'
-import { createUser, deleteUser, getAllUsers, getUser, updateUser } from '../api/usuarios'
+import { createUser, deleteUser, getAllUsers, getUser, updateUser, setUserStateReq } from '../api/usuarios'
 import { Header } from '../components/Header'
 import { UserDrawer } from '../components/Drawers/UserDrawer'
 import { MainDrawer } from '../components/Drawers/MainDrawer'
 import { toast } from 'sonner'
 import { UsersTable } from '../components/Views/Users/UsersTable'
-import { getProfileReq, setUserStateReq, updateProfileReq } from '../api/auth'
+import { getProfileReq, updateProfileReq } from '../api/auth'
 import { Modal } from '../components/Modal'
 import { EditUserDrawer } from '../components/Drawers/EditUserDrawer'
 import { useAuth } from '../context/AuthContext'
@@ -177,12 +177,13 @@ export const Users = () => {
   const handleState = async () => {
     console.log('handleState')
     setIsLoading(true)
-    const res = await setUserStateReq(idToEdit, { status: !drawerInfo.status })
-    const index = data.findIndex((machine) => machine._id === idToEdit)
+    const res = await setUserStateReq(idToEdit, { state: !drawerInfo.state })
+    console.log(res.data, 'res')
+    const index = data.findIndex((user) => user.id === idToEdit)
     const newData = [...data]
     newData[index] = res.data
     setData(newData)
-    toast.success(`Usuario ${res.data.name} ${res.data.lastName} ${res.data.status ? 'habilitado' : 'deshabilitado'} correctamente`)
+    toast.success(`Usuario ${res.data.name} ${res.data.lastName} ${res.data.state ? 'habilitado' : 'deshabilitado'} correctamente`)
     setIsLoading(false)
     handleToggleDrawer(drawerTitle)
   }
@@ -191,7 +192,7 @@ export const Users = () => {
     <Layout isLoading={isLoading} handleEditUser={handleEditProfile}>
       <Header pageName='Users' buttonText='Agregar Usuario' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Usuario')} />
       <UsersTable data={data} handleEdit={handleEdit} />
-      <MainDrawer mode={mode} isOpen={isDrawerOpen} stateButton={drawerInfo.status} handleState={handleState} handleDelete={() => setShowModal(true)} resetDrawerInfo={resetDrawerInfo} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle} submitForm={handleFormSubmit}>
+      <MainDrawer mode={mode} isOpen={isDrawerOpen} stateButton={drawerInfo.state} handleState={handleState} handleDelete={() => setShowModal(true)} resetDrawerInfo={resetDrawerInfo} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle} submitForm={handleFormSubmit}>
         <UserDrawer formRef={formRef} drawerInfo={drawerInfo} submitText={drawerTitle} submitForm={handleFormSubmit} setImagePreview={setImagePreview} imagePreview={imagePreview} />
       </MainDrawer>
       {
