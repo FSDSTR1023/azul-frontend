@@ -47,6 +47,15 @@ export const MachinesTable = ({ data, handleEdit }) => {
         accessorKey: 'pricePerDay'
       },
       {
+        header: 'Activa',
+        id: 'state',
+        accessorKey: 'state',
+        cell: ({ row, getValue }) => {
+          if (getValue() === undefined) return ''
+          return getValue() ? 'Habilitada' : 'Deshabilitada'
+        }
+      },
+      {
         header: 'Estado',
         id: 'estado',
         accessorKey: 'status',

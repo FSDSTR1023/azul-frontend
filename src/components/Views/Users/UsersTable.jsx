@@ -30,12 +30,20 @@ export const UsersTable = ({ data, handleEdit }) => {
         accessorKey: 'email'
       },
       {
+        header: 'Activa',
+        id: 'state',
+        accessorKey: 'state',
+        cell: ({ row, getValue }) => {
+          if (getValue() === undefined) return ''
+          return getValue() ? 'Habilitado' : 'Deshabilitado'
+        }
+      },
+      {
         header: 'Rol',
         accessorKey: 'role',
         cell: ({ row, getValue }) => {
           if (getValue() === undefined) return ''
           const userRole = userRoles.find(s => s.value === getValue())
-          console.log(userRole)
           return userRole.text
         }
       },
