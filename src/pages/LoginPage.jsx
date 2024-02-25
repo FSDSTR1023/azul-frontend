@@ -8,6 +8,7 @@ import { Loader } from '../components/Loader'
 
 export const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   const {
     handleSubmit,
     register,
@@ -25,6 +26,8 @@ export const LoginPage = () => {
       if (res) setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
+      console.log(error.response.data.error)
+      setError(error.response.data.error)
     }
   })
   return (
@@ -36,6 +39,7 @@ export const LoginPage = () => {
 }
       <div className='w-full bg-white p-5 max-w-xl rounded'>
         <p className='text-left text-slate-400'>Entra tus datos para realizar el login</p>
+        {error && <p className='text-red-500 text-sm font-bold'>{error}</p>}
         <form onSubmit={onSubmit} className='flex flex-col items-start mt-3 gap-3'>
           <Input
             label='Email'
