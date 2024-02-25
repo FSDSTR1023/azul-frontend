@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '../Button/Button'
 import { CloseIcon } from '../Icons'
 
-export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerInfo, submitForm, handleDelete, mode, showButton = true }) => {
+export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerInfo, submitForm, handleDelete, mode, handleState, stateButton, showButton = true }) => {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     if (isOpen) {
@@ -28,7 +28,12 @@ export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerI
         {showButton &&
           <div className='flex pt-4 gap-4'>
             <Button className='w-full text-base font-medium' onClick={submitForm}>{title}</Button>
-            {mode === 'edit' && <Button variant='danger' className='w-full text-base font-medium' onClick={handleDelete}>Eliminar</Button>}
+            {mode === 'edit' && (
+              <div>
+                <Button variant='outline' className='w-full text-base font-medium' onClick={handleState}>{stateButton ? 'Habilitar' : 'Deshabilitar'}</Button>
+                <Button variant='danger' className='w-full text-base font-medium' onClick={handleDelete}>Eliminar</Button>
+              </div>
+            )}
           </div>}
 
       </div>
