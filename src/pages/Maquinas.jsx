@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { Layout } from '../components/Layout'
-import { createMachine, deleteMachine, getAllMachines, getMachine, updateMachine } from '../api/maquinas'
+import { createMachine, deleteMachine, getAllMachines, getMachine, setMachineStateReq, updateMachine } from '../api/maquinas'
 import { NOTRENTED } from '../schemas/machine-state-schema'
 import { Header } from '../components/Header'
 import { MachineDrawer } from '../components/Drawers/MachineDrawer'
@@ -136,6 +136,19 @@ export const Maquinas = () => {
     console.log('show modal')
     setShowModal(true)
   }
+  const handleState = async () => {
+    console.log('handleState')
+    setIsLoading(true)
+    const res = await setMachineStateReq(idToEdit, { status: !drawerInfo.status })
+    const index = data.findIndex((machine) => machine._id === idToEdit)
+    const newData = [...data]
+    newData[index] = res.data
+    setData(newData)
+    toast.success(`Maquina ${res.data.make} ${res.data.model} ${res.data.status ? 'habilitada' : 'deshabilitada'} correctamente`)
+    setIsLoading(false)
+    handleToggleDrawer(drawerTitle)
+  }
+
   const handleDelete = async () => {
     setIsLoading(true)
     try {
@@ -188,7 +201,7 @@ export const Maquinas = () => {
     <Layout isLoading={isLoading} handleEditUser={handleEditUser}>
       <Header pageName='Maquinas' buttonText='Agregar Maquina' setDrawerTitle={setDrawerTitle} toggleDrawer={() => handleToggleDrawer('Agregar Maquina')} />
       <MachinesTable data={data} handleEdit={handleEdit} />
-      <MainDrawer mode={mode} submitForm={handleFormSubmit} handleDelete={handleShowModal} resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
+      <MainDrawer mode={mode} submitForm={handleFormSubmit} stateButton={drawerInfo.status} handleState={handleState} handleDelete={handleShowModal} resetDrawerInfo={resetDrawerInfo} isOpen={isDrawerOpen} toggleDrawer={() => handleToggleDrawer(drawerTitle)} title={drawerTitle}>
         <MachineDrawer formRef={formRef} mode={mode} drawerInfo={drawerInfo} handleFormSubmit={handleFormSubmit} setImagePreview={setImagePreview} imagePreview={imagePreview} fileUrls={fileUrls} setFileUrls={setFileUrls} />
       </MainDrawer>
       {
