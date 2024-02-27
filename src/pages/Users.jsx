@@ -9,6 +9,7 @@ import { copyToClipboard } from '../helpers/copyClipboards'
 import { UserDrawer } from '../components/Drawers/UserDrawer'
 import { MainDrawer } from '../components/Drawers/MainDrawer'
 import { toast } from 'sonner'
+import { sendTemplate } from '../api/mail'
 
 export const Users = () => {
   const [data, setData] = useState([])
@@ -50,10 +51,12 @@ export const Users = () => {
     }
     setIsDrawerOpen(!isDrawerOpen)
   }
+
   const handleCreateUser = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     const formData = new FormData(e.target)
+
     const dataToSend = {
       name: formData.get('name'),
       lastName: formData.get('lastname'),
@@ -62,11 +65,24 @@ export const Users = () => {
       role: formData.get('role'),
       image: imagePreview ? imagePreview[0] : ''
     }
-    const res = await createUser(dataToSend)
-    setData([...data, res.data])
-    toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
-    setIsLoading(false)
-    handleToggleDrawer()
+
+    try {
+      const res = await createUser(dataToSend)
+      setData([...data, res.data])
+      toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
+      const emailData = {
+        to: res.data.email,
+        subject: 'Account created',
+        token: res.data.token
+      }
+      const email = await sendTemplate(emailData)
+      console.log('email sent', email.data)
+    } catch (error) {
+      console.error('failed to send email', error)
+    } finally {
+      setIsLoading(false)
+      handleToggleDrawer()
+    }
   }
 
   useMemo(() => {

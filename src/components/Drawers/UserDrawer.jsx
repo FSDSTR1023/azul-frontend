@@ -4,6 +4,7 @@ import { Select } from '../Forms/Select'
 import { Input } from '../Forms/Input'
 import { GeneratePassword } from 'js-generate-password'
 import { useState } from 'react'
+import { sendMail } from '../../api/mail'
 
 export const UserDrawer = ({ toggleDrawer, submitText, createUser }) => {
   const [pw, setPw] = useState('')
