@@ -12,6 +12,7 @@ import { Modal } from '../components/Modal'
 import { EditUserDrawer } from '../components/Drawers/EditUserDrawer'
 import { useAuth } from '../context/AuthContext'
 import { CLIENT } from '../schemas/user-roles-schema'
+import { sendTemplate } from '../api/mail'
 
 export const Users = () => {
   const { setUser } = useAuth()
@@ -78,6 +79,24 @@ export const Users = () => {
     toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
     setIsLoading(false)
     handleToggleDrawer()
+
+    try {
+      const res = await createUser(dataToSend)
+      setData([...data, res.data])
+      toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
+      const emailData = {
+        to: res.data.email,
+        subject: 'Account created',
+        token: res.data.token
+      }
+      const email = await sendTemplate(emailData)
+      console.log('email sent', email.data)
+    } catch (error) {
+      console.error('failed to send email', error)
+    } finally {
+      setIsLoading(false)
+      handleToggleDrawer()
+    }
   }
 
   const handleEdit = async (idToGet) => {
