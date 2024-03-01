@@ -1,18 +1,31 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { verifyTokenRegisterReq } from '../api/usuarios'
+import { AccountVerified, AccountNotVerified } from '../components/AccountVerification'
+import { Loader } from '../components/Loader'
 
 export const ConfirmPage = () => {
+  const [isVerified, setIsVerified] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(true)
   const urlParams = new URLSearchParams(window.location.search)
   const token = urlParams.get('token') ?? 'no token found in url'
   useEffect(() => {
     const verifyToken = async (token) => {
-      const res = await verifyTokenRegisterReq(token)
-      res.status === 200 ? console.log('token verified') : console.log('token not verified')
+      try {
+        const res = await verifyTokenRegisterReq(token)
+        setIsVerified(true)
+        setIsVerifying(false)
+      } catch (error) {
+        setIsVerified(false)
+        setIsVerifying(false)
+      }
     }
     verifyToken(token)
   }, [])
 
   return (
-    <div>THE TOKEN IS: {token} </div>
+    <div>
+      {(isVerifying && !isVerified) && <Loader />}
+      {(isVerified && !isVerifying) ? <AccountVerified /> : <AccountNotVerified />}
+    </div>
   )
 }
