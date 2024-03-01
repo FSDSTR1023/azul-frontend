@@ -73,12 +73,12 @@ export const Users = () => {
       password: formData.get('password'),
       role: formData.get('role') ? formData.get('role') : 'user'
     }
-    console.log(dataToSend)
-    const res = await createUser(dataToSend)
-    setData([...data, res.data])
-    toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
-    setIsLoading(false)
-    handleToggleDrawer()
+    // console.log(dataToSend)
+    // const res = await createUser(dataToSend)
+    // setData([...data, res.data])
+    // toast.success(`Usuario ${res.data.name} ${res.data.lastName} creado exitosamente.`)
+    // setIsLoading(false)
+    // handleToggleDrawer()
 
     try {
       const res = await createUser(dataToSend)
