@@ -11,11 +11,13 @@ import { ALQUILERES, DASBOARD, INCIDENCIAS, LOGIN, MAQUINAS, NOTFOUND, USUARIOS 
 import { NotFound } from './pages/NotFound'
 import { Toaster } from 'sonner'
 import { ConfirmPage } from './pages/ConfirmPage'
+import { Notifications } from './context/Notifications'
 
 function App () {
   return (
     <AuthProvider>
       <Toaster />
+      <Notifications />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate to={DASBOARD.navigation} />} />
