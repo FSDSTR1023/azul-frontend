@@ -88,7 +88,16 @@ export const IncidenciasTable = ({ data, handleToggleDrawer }) => {
         header: 'Estado',
         id: 'estado',
         accessorKey: 'status',
-        enableSorting: false,
+        filterFn: (row, columnId, filterValue) => {
+          if (filterValue === undefined) return false
+          console.log(row.original.status)
+          const status = row.original.status
+          console.log(status)
+          console.log(filterValue)
+          const statusVal = issueType.filter(s => s.text.toLowerCase().includes(filterValue.toLowerCase()))
+          console.log(statusVal[0].value)
+          return statusVal[0].value === status
+        },
         cell: ({ row, getValue }) => {
           const status = issueType.find(s => s.value === getValue())
           return (<Pill color={status.color}>{status.text}</Pill>)

@@ -18,7 +18,10 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
   const [columnVisibility, setColumnVisibility] = useState({})
   const tableRef = useReactTable({
     data,
-    columns,
+    columns: columns.map(column => ({
+      ...column,
+      disableFilters: column.disableFilters || false
+    })),
     state: {
       sorting,
       columnFilters,
@@ -45,7 +48,7 @@ export const Tabla = ({ columns, data, defaultFilter = 'id' }) => {
           <Dropdown dynamicText={columnToFilter} buttonText='Selecciona columna a Buscar'>
             {tableRef
               .getAllColumns()
-              .filter((column) => column.getCanFilter())
+              .filter((column) => column.columnDef.disableFilters === false && column.getCanFilter())
               .map((column) => {
                 return (
                   <li

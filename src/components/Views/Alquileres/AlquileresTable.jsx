@@ -36,6 +36,7 @@ export const AlquileresTable = ({ data }) => {
       },
       {
         header: 'Cliente',
+        id: 'cliente',
         accessorKey: 'user',
         filterFn: (row, columnId, filterValue) => {
           if (row.original.user === undefined) return false
@@ -51,7 +52,7 @@ export const AlquileresTable = ({ data }) => {
       },
       {
         header: 'Fecha',
-        id: 'dateReported',
+        id: 'fecha',
         accessorFn: row => {
           return moment(row.dateRentStart)
             .local()
@@ -60,6 +61,17 @@ export const AlquileresTable = ({ data }) => {
       },
       {
         header: 'Estado',
+        id: 'estado',
+        filterFn: (row, columnId, filterValue) => {
+          if (filterValue === undefined) return false
+          console.log(row.original.status)
+          const status = row.original.status
+          console.log(status)
+          console.log(filterValue)
+          const statusVal = rentStateType.filter(s => s.text.toLowerCase().includes(filterValue.toLowerCase()))
+          console.log(statusVal[0].value)
+          return statusVal[0].value === status
+        },
         accessorKey: 'status',
         enableSorting: false,
         cell: ({ row, getValue }) => {

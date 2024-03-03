@@ -33,6 +33,7 @@ export const UsersTable = ({ data, handleEdit }) => {
         header: 'Activa',
         id: 'state',
         accessorKey: 'state',
+        disableFilters: true,
         cell: ({ row, getValue }) => {
           if (getValue() === undefined) return ''
           return getValue() ? 'Habilitado' : 'Deshabilitado'

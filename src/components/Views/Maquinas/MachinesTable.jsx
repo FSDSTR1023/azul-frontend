@@ -49,6 +49,7 @@ export const MachinesTable = ({ data, handleEdit }) => {
       {
         header: 'Activa',
         id: 'state',
+        disableFilters: true,
         accessorKey: 'state',
         cell: ({ row, getValue }) => {
           if (getValue() === undefined) return ''
@@ -59,7 +60,16 @@ export const MachinesTable = ({ data, handleEdit }) => {
         header: 'Estado',
         id: 'estado',
         accessorKey: 'status',
-        enableSorting: false,
+        filterFn: (row, columnId, filterValue) => {
+          if (filterValue === undefined) return false
+          console.log(row.original.status)
+          const status = row.original.status
+          console.log(status)
+          console.log(filterValue)
+          const statusVal = machineStateType.filter(s => s.text.toLowerCase().includes(filterValue.toLowerCase()))
+          console.log(statusVal[0].value)
+          return statusVal[0].value === status
+        },
         cell: ({ row, getValue }) => {
           if (getValue() === undefined) return ''
           const status = machineStateType.find(s => s.value === getValue())
