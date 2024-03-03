@@ -17,7 +17,7 @@ export const MainDrawer = ({ children, isOpen, toggleDrawer, title, resetDrawerI
   }, [isOpen])
   console.log(stateButton)
   return (
-    <div id='drawer' className={`${isOpen ? 'open' : ''} fixed top-0 right-0 w-full h-screen pointer-events-none`}>
+    <div id='drawer' className={`${isOpen ? 'open' : ''} fixed top-0 right-0 w-full h-screen pointer-events-none z-20`}>
       <div className='w-full md:w-[480px] p-7 h-screen bg-white absolute right-0 shadow-lg pointer-events-auto z-10 flex flex-col'>
         <header className='flex justify-between items-center mb-4'>
           <h1 className='text-xl font-bold'>{title}</h1>
