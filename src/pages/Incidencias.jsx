@@ -104,7 +104,7 @@ export const Incidencias = () => {
     <Layout isLoading={isLoading} handleEditUser={handleEditProfile}>
       <Header pageName='Incidencias' />
       <IncidenciasTable data={data} handleToggleDrawer={handleToggleDrawer} />
-      <MainDrawer showButton={false} title={selectDetails.incident} isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}>
+      <MainDrawer showButton={false} title='Detalles Incidencia' isOpen={isDrawerOpen} toggleDrawer={handleToggleDrawer}>
         <IncidentDrawerAT incidentDetails={selectDetails} handleCloseIssue={() => handleCloseIssue()} />
       </MainDrawer>
       {
