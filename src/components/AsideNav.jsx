@@ -53,19 +53,24 @@ export const AsideNav = ({ className, handleEditUser }) => {
         </ul>
       </nav>
       <div className='flex gap-4 items-center border-t-2 p-5'>
-        <img
-          className='rounded-full h-[3.25rem] aspect-square'
-          src={user.image ? user.image : 'https://res.cloudinary.com/diskr186m/image/upload/v1707860933/not_image_user_xtda0m.jpg'}
-          alt={`Avatar de ${user.name}`}
-        />
+        <button className='edit-button' onClick={handleEditUser}>
+          <div className='edit-icon'>
+            <EditIcon />
+          </div>
+          <img
+            src={user.image ? user.image : 'https://res.cloudinary.com/diskr186m/image/upload/v1707860933/not_image_user_xtda0m.jpg'}
+            alt={`Avatar de ${user.name}`}
+          />
+        </button>
+
         <div className='flex-1'>
           <p className='font-bold max-w-[8ch] overflow-hidden text-ellipsis'>{user.name}</p>
           <p className='text-sm text-slate-600/50'>{role}</p>
         </div>
         <div className='flex gap-2'>
-          <Button className='p-2' variant='ghost' onClick={handleEditUser}>
+          {/* <Button className='p-2' variant='ghost' onClick={handleEditUser}>
             <EditIcon />
-          </Button>
+          </Button> */}
           <Button className='p-2' variant='ghost' onClick={signout}>
             <LogoutIcon />
           </Button>

@@ -18,7 +18,7 @@ body {
   grid-template-areas:
   "aside header"
   "aside main"; 
-  grid-template-columns: 300px 1fr; 
+  grid-template-columns: 250px 1fr; 
   grid-template-rows: auto 1fr; 
 }
 #drawer > :first-child{
@@ -35,4 +35,36 @@ body {
 #drawer.open > :last-child{
   opacity: 1;
   pointer-events: auto;
+}
+
+.edit-button{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.25rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background-color: #f7f7f5;
+  cursor: pointer;
+  border-radius: 50px;
+  overflow: hidden;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+.edit-button > .edit-icon{
+  position: absolute;
+  background-color: #111111a1;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease-in-out;
+}
+.edit-button:hover > .edit-icon{
+  opacity: 1;
 }
