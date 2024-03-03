@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 
 export const Notifications = () => {
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_SOCKET_URL)
+    const socket = io(import.meta.env.VITE_API_BASE_URL)
 
     socket.on('userCreated', () => {
       console.log('New user created')
