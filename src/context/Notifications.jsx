@@ -21,13 +21,20 @@ export const Notifications = () => {
       if (socket === sessionStorage.getItem('socket')) return
       toast.success(`El usuario ${extra} ha iniciado sesión`)
     })
-    socket.on('incidenceCreated', (extra) => {
+    socket.on('incidenceCreated', (extra, socket) => {
       console.log('Incidencia Creada')
-      toast.success(`Incidencia creada ${extra}`)
+      if (socket === sessionStorage.getItem('socket')) return
+      toast.success(`La siguiente incidencia ha sido creada ${extra}`)
     })
-    socket.on('rentCreated', (extra) => {
+    socket.on('rentCreated', (extra, socket) => {
       console.log('Alquiler creado')
-      toast.success(`Alquiler creado ${extra}`)
+      if (socket === sessionStorage.getItem('socket')) return
+      toast.success(`La siguiente máquina ha sido alquilada ${extra}`)
+    })
+    socket.on('machineCreated', (extra, socket) => {
+      console.log('Maquina creada')
+      if (socket === sessionStorage.getItem('socket')) return
+      toast.success(`Se ha creado la siguiente máquina ${extra}`)
     })
   }, [])
   return null
