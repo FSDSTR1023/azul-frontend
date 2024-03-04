@@ -17,12 +17,12 @@ export const AsideNav = ({ className, handleEditUser }) => {
         </Link>
         <ul className='flex gap-2 flex-col p-5'>
 
-          <li>
+          {/* <li>
             <CustomNavLink to={DASBOARD.navigation}>
               <DashboardIcon />
               {DASBOARD.name}
             </CustomNavLink>
-          </li>
+          </li> */}
 
           <li>
             <CustomNavLink to={ALQUILERES.navigation}>
