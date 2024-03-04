@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const localStorage = window.localStorage
+const sessionStorage = window.sessionStorage
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -23,7 +24,7 @@ instance.interceptors.request.use(
 )
 instance.interceptors.request.use(
   function (config) {
-    const socket = localStorage.getItem('socket')
+    const socket = sessionStorage.getItem('socket')
     if (socket) {
       config.headers.socket = socket
     }
