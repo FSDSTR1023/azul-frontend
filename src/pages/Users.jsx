@@ -121,7 +121,7 @@ export const Users = () => {
       email: formData.get('email'),
       role: formData.get('role') ? formData.get('role') : CLIENT
     }
-    if (formData.get('password') !== '' && formData.get('password') === formData.get('confirmPassword') && formData.get('password') !== null && formData.get('password') !== undefined) {
+    if (formData.get('password') !== '' && formData.get('password') !== null && formData.get('password') !== undefined) {
       dataToSend.password = formData.get('password')
     }
     console.log(dataToSend)
